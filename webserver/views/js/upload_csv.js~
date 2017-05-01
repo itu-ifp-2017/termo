@@ -1,0 +1,11 @@
+function save_csv_preview(){
+    
+}
+
+function check_invalid_column_selections(){
+    var id_value = $('#id_column').dropdown('get value');
+    var name_value = $('#name_column').dropdown('get value');
+    if id_value == "" && name_value == "" return {"status":"error", "msg": "Please select #ID and Name Columns."}
+    else if id_value == "" return {"status":"error", "msg": "Please select an #ID Column."}
+    else if name_value = "" return {"status":"error", "msg": "Please select a Name Column."} 
+}

@@ -1,0 +1,5 @@
+function save_exp_data(){
+    $('input').each(function(i,v){
+	console.log(i,v.value);
+    });
+}
