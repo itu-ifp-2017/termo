@@ -34,15 +34,17 @@
 	   <div class="ui label">
 	     Mw+Mcup
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="mw_mcup">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="m1">
 	   <div class="ui basic label">
 	     g
 	   </div>
 	 </div>
+
 	 <br>
+	 
 	 <span style="float:left;">The mass of the cold water is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="mcold" disabled>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="mcold" disabled>
 	   <div class="ui basic label">
 	     g
 	   </div>
@@ -53,9 +55,9 @@
 	   <div class="ui label">
 	     T1
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="T1">
 	   <div class="ui basic label">
-	     g
+	     C
 	   </div>
 	 </div>
 	 <br>
@@ -64,9 +66,9 @@
 	   <div class="ui label">
 	     T2
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="T2">
 	   <div class="ui basic label">
-	     g
+	     C
 	   </div>
 	 </div>
 	 <br>
@@ -75,7 +77,7 @@
 	   <div class="ui label">
 	     Teq
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="Teq">
 	   <div class="ui basic label">
 	     g
 	   </div>
@@ -86,15 +88,23 @@
 	   <div class="ui label">
 	     M2
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="m2">
 	   <div class="ui basic label">
 	     g
 	   </div>
 	 </div>
 	 <br>
+	 <button class="ui primary button pull-left" style="margin-bottom: 20px;" onclick="calculate_part_one();">
+	   Calculate Results
+	 </button>
+	 <br>
+	 <div class="ui section divider"></div>
+	 
+
+	 <br>
 	 <span style="float:left;">The mass of hot water is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="M" disabled>
 	   <div class="ui basic label">
 	     g
 	   </div>
@@ -102,7 +112,7 @@
 	 <br>
 	 <span style="float:left;">Heat capacity of the calorimeter vessel is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="ccal" disabled>
 	   <div class="ui basic label">
 	     cal/gr°C
 	   </div>
@@ -110,12 +120,12 @@
 	 <br>
 	 <span style="float:left;">The absolute error is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="abs_error" disabled>
 	 </div>
 	 <br>
 	 <span style="float:left;">and the relative error is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="rel_error" disabled>
 	 </div>
 	 <br>
      </div> <!-- container -->

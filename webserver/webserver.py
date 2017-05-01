@@ -11,14 +11,14 @@ import concurrent.futures
 import bcrypt
 from jinja2 import Environment, FileSystemLoader, TemplateNotFound
 import uuid
-import pandas as pd
 import math
 from numpy.random import randint
-from collections import Counter
 import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 import time
+from physics import physics
+import json
 
 root = os.path.dirname(__file__)
 define('port', type=int, default=8080)
@@ -115,7 +115,9 @@ class Deney1(BaseHandler, TemplateRendering):
             for i in self.request.arguments:
                 data.append( int(self.request.arguments[i][0]) )
                 
-            binomial_distribution(data, username)
+            output_file = physics.binomial_distribution(data)
+            document = { 'username': username, 'file': output_file }
+            cursor = expdata.binomial_distribution.insert_one(document)    
             self.write('/deney1/sonuc')
 
         elif method == 'autosave':
@@ -126,17 +128,6 @@ class Deney1(BaseHandler, TemplateRendering):
             else:
                 cursor = autosave.binomial_distribution.update_one({'username':username}, {'$set':document})
 
-def binomial_distribution(data, username):
-    numtails = pd.Series(data)
-    hdata = pd.Series(Counter(numtails)).reindex(range(0,11)).fillna(0).astype(int)
-    plot = hdata.plot(kind='bar')
-    fig = plot.get_figure()
-    timestamp = int(time.time())
-    output_file = str(timestamp) + ".png"
-    fig.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))
-    document = { 'username': username, 'file': output_file }
-    cursor = expdata.binomial_distribution.insert_one(document)
-
 class Deney2(BaseHandler, TemplateRendering):
     def get(self, pagename=None):
         if pagename is None:
@@ -146,6 +137,25 @@ class Deney2(BaseHandler, TemplateRendering):
         else:
             content = self.render_template('heat_capacity_of_solids_part_two.html')
             self.write(content)
+
+    def post(self, pagename):
+        if pagename == 'calculate_part_one':
+            data = {}
+            for arg in self.request.arguments:
+                data[arg] = float( self.request.arguments[arg][0] )
+
+            result = physics.heatcapacity(**data)
+            document = data.copy()
+            document.update(result)
+            document['username'] = 's'
+            document['timestamp'] = int(time.time())
+            expdata.heat_capacity_of_solids_part_one.insert_one(document)
+            self.write( result )
+
+        elif pagename == 'calculate_part_two':
+            data = json.loads( self.request.body )
+            # retrieve ccal from db and feed it as C
+            physics.dene(**data)
 
 class Deney3(BaseHandler, TemplateRendering):
     def get(self):

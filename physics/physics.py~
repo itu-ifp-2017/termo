@@ -1,0 +1,10 @@
+import pandas as pd
+
+def binomial_distribution(data):
+    numtails = pd.Series(data)
+    hdata = pd.Series(Counter(numtails)).reindex(range(0,11)).fillna(0).astype(int)
+    plot = hdata.plot(kind='bar')
+    fig = plot.get_figure()
+    timestamp = int(time.time())
+    output_file = str(timestamp) + ".png"
+    fig.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))
