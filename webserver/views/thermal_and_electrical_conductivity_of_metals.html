@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ifp</title>
+
+    <link type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+  </head>
+
+   <body>
+     <div class="ui container" style="width: 1080px; height: 1150px; margin: 0 auto; padding-top: 50px; position: relative;">
+       <h2>Thermal and Electrical Conductivity of Metals</h2>
+       <button class="ui primary button pull-right" onclick="window.location='/deney2/part2'" style="margin-top: -50px;">
+	 Save Your Results
+       </button>
+       <span style="float:left; margin-top:10px;">Weigh the calorimeter vessel (together with its lid) when it is empty.</span>
+	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px;">
+	   <div class="ui label">
+	     Mcal
+	   </div>
+	   <input type="text" placeholder="#number" style="width: 110px;" id="mcup">
+	   <div class="ui basic label">
+	     g
+	   </div>
+	 </div>
+	 <br>
+	 <span style="float:left; margin-top:10px;">Heat some water using the kettle and measure the temperature.</span>
+	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px;">
+	   <div class="ui label">
+	     Twater
+	   </div>
+	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <div class="ui basic label">
+	     C
+	   </div>
+	 </div>
+	 <br>
+	 <span style="float:left; margin-top:10px;">Weigh the measuring vessel and hot water together.</span>
+	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px;">
+	   <div class="ui label">
+	     Mves-cal
+	   </div>
+	   <input type="text" placeholder="#number" style="width: 110px;" id="mw_mcup">
+	   <div class="ui basic label">
+	     g
+	   </div>
+	 </div>
+	 <br>
+	 <span style="float:left;">The mass of the hot water is </span>
+	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="mcold" disabled>
+	   <div class="ui basic label">
+	     g
+	   </div>
+	 </div>
+	 <br>
+	 <span style="float:left; margin-top:10px;">Read the temperature when it reaches equilibrium.</span>
+	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px;">
+	   <div class="ui label">
+	     T
+	   </div>
+	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <div class="ui basic label">
+	     C
+	   </div>
+	 </div>
+	 <br>
+	 <span style="float:left;">The heat capacity of water is </span>
+	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="mcold" disabled>
+	   <div class="ui basic label">
+	     ?
+	   </div>
+	 </div>
+	 <br>
+
+       <div style="width:100%;float:left;margin-top: 15px;text-align:center;">
+	 <table class="ui celled table" style="width: 400px;margin:0 auto;">
+	   <thead>
+	     <tr>
+	       <th style="width: 100px;">t (s)</th>
+	       <th style="width: 100px;">T (K)</th>
+	       <th style="width: 100px;">dT (K)</th>
+	       <th style="width: 100px;">Q (J)</th>
+	     </tr>
+	   </thead>
+	   <tbody>
+	     {% for i in range(10) %}
+	     <tr>
+	       <td style="">
+		 {{ i * 180 }}
+	       </td>
+	       <td style="padding:0;">
+		 <div class="ui input" style="width: 100%;">
+		   <input type="text" placeholder="#number" style="width: 100%;border:none;">
+		 </div>
+	       </td>
+	       <td style="padding:0;">
+		 <div class="ui input" style="width: 100%;">
+		   <input type="text" placeholder="#number" style="width: 100%;border:none;">
+		 </div>
+	       </td>
+	       <td style="">
+		 --
+	       </td>
+	       </tr>
+	       {% endfor %}
+	   </tbody>
+	   </table>
+       </div>
+	 <br>
+     </div> <!-- container -->
+     <script>
+       {% include 'js/deney2.js' %}
+     </script>
+   </body>
