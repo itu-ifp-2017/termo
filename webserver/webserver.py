@@ -34,7 +34,7 @@ settings = {
 executor = concurrent.futures.ThreadPoolExecutor(2)
 
 # Mongo Client
-mongoclient = MongoClient('localhost', 27017)
+mongoclient = MongoClient('mongodb', 27017)
 userdata = mongoclient.userdata
 expdata = mongoclient.expdata
 autosave = mongoclient.autosave
@@ -53,6 +53,7 @@ def serve():
         ("/deney2", Deney2),
         ("/deney2/(.*)", Deney2),
         ("/deney3", Deney3),
+        ("/deney4", Deney4),
         ("/done/(.*)", EmptyTemplateLoader),
         ("/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), 'plots')})
     ], **settings)
@@ -94,7 +95,6 @@ class Deney1(BaseHandler, TemplateRendering):
             for doc in expdata.binomial_distribution.find(query):
                 files.append( int(doc['file'].split('.')[0]) )
 
-            print files
             img = str(max(files)) + '.png'
             content = self.render_template('sonuc.html', {'img': '/static/'+str(img)} )
             self.write(content)
@@ -121,13 +121,10 @@ class Deney1(BaseHandler, TemplateRendering):
                 cursor = autosave.binomial_distribution.insert_one(document)
             else:
                 cursor = autosave.binomial_distribution.update_one({'username':username}, {'$set':document})
-            print document
-
 
 def binomial_distribution(data, username):
     numtails = pd.Series(data)
     hdata = pd.Series(Counter(numtails)).reindex(range(0,11)).fillna(0).astype(int)
-    print hdata
     plot = hdata.plot(kind='bar')
     fig = plot.get_figure()
     timestamp = int(time.time())
@@ -135,7 +132,6 @@ def binomial_distribution(data, username):
     fig.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))
     document = { 'username': username, 'file': output_file }
     cursor = expdata.binomial_distribution.insert_one(document)
-    print document
 
 class Deney2(BaseHandler, TemplateRendering):
     def get(self, pagename=None):
@@ -150,6 +146,12 @@ class Deney2(BaseHandler, TemplateRendering):
 class Deney3(BaseHandler, TemplateRendering):
     def get(self):
         content = self.render_template('fusion_latent_heat_of_water.html')
+        self.write(content)
+
+
+class Deney4(BaseHandler, TemplateRendering):
+    def get(self):
+        content = self.render_template('thermal_expansion_coefficient_of_solids.html')
         self.write(content)
     
 class Welcome(BaseHandler):
