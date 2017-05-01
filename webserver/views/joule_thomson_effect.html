@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ifp</title>
+
+    <link type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+  </head>
+
+   <body>
+     <div class="ui container" style="width: 1080px; height: 1150px; margin: 0 auto; padding-top: 50px; position: relative;">
+       <h2>Joule-Thomson Effect</h2>
+       <button class="ui primary button pull-right" onclick="window.location='/deney2/part2'" style="margin-top: -50px;">
+	 Save Your Results
+       </button>
+       <br>
+       <div style="margin-top:10px;">Adjust the initial pressure to the value 100kPa and reduce the pressure of 10kPa in steps. At each step wait one minute then record the temperature difference.</div>
+
+       <div style="width:30%;float:left;margin-top: 15px;text-align:center;">
+	 <table class="ui celled table" style="width: 200px;margin:0 auto;">
+	          <span style="font-weight:bold;">CO2</span>
+	   <thead>
+	     <tr>
+	       <th style="width: 100px;">P (kPa)</th>
+	       <th style="width: 100px;">dT (K)</th>
+	     </tr>
+	   </thead>
+	   <tbody>
+	     {% for i in range(11) %}
+	     <tr>
+	       <td style="">
+		 {{ 100 - i * 10 }}
+	       </td>
+	       <td style="padding:0;">
+		 <div class="ui input" style="width: 100%;">
+		   <input type="text" placeholder="#number" style="width: 100%;border:none;">
+		 </div>
+	       </td>
+	       </tr>
+	       {% endfor %}
+	   </tbody>
+	   </table>
+       </div>
+       <div style="width:30%;float:left;margin-top: 15px;text-align:center;">
+	 <table class="ui celled table" style="width: 200px;margin:0 auto;">
+	   <span style="font-weight:bold;">N2</span>
+	   <thead>
+	     <tr>
+	       <th style="width: 100px;">P (kPa)</th>
+	       <th style="width: 100px;">dT (K)</th>
+	     </tr>
+	   </thead>
+	   <tbody>
+	     {% for i in range(11) %}
+	     <tr>
+	       <td style="">
+		 {{ 100 - i * 10 }}
+	       </td>
+	       <td style="padding:0;">
+		 <div class="ui input" style="width: 100%;">
+		   <input type="text" placeholder="#number" style="width: 100%;border:none;">
+		 </div>
+	       </td>
+	       </tr>
+	       {% endfor %}
+	   </tbody>
+	   </table>
+	 </div>
+	 </br>
+     </div> <!-- container -->
+     <script>
+       {% include 'js/deney2.js' %}
+     </script>
+   </body>

@@ -55,6 +55,7 @@ def serve():
         ("/deney3", Deney3),
         ("/deney4", Deney4),
         ("/deney5", Deney5),
+        ("/deney7", Deney7),
         ("/done/(.*)", EmptyTemplateLoader),
         ("/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), 'plots')})
     ], **settings)
@@ -157,6 +158,11 @@ class Deney4(BaseHandler, TemplateRendering):
 class Deney5(BaseHandler, TemplateRendering):
     def get(self):
         content = self.render_template('ideal_gas_law.html')
+        self.write(content)
+
+class Deney7(BaseHandler, TemplateRendering):
+    def get(self):
+        content = self.render_template('joule_thomson_effect.html')
         self.write(content)
     
 class Welcome(BaseHandler):
