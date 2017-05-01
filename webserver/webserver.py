@@ -55,6 +55,7 @@ def serve():
         ("/deney3", Deney3),
         ("/deney4", Deney4),
         ("/deney5", Deney5),
+        ("/deney6", Deney6),
         ("/deney7", Deney7),
         ("/deney8", Deney8),
         ("/done/(.*)", EmptyTemplateLoader),
@@ -159,6 +160,11 @@ class Deney4(BaseHandler, TemplateRendering):
 class Deney5(BaseHandler, TemplateRendering):
     def get(self):
         content = self.render_template('ideal_gas_law.html')
+        self.write(content)
+
+class Deney6(BaseHandler, TemplateRendering):
+    def get(self):
+        content = self.render_template('maxwellian_velocity_distribution.html')
         self.write(content)
 
 class Deney7(BaseHandler, TemplateRendering):

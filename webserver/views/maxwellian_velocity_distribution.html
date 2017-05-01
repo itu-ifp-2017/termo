@@ -13,64 +13,57 @@
 
    <body>
      <div class="ui container" style="width: 1080px; height: 1150px; margin: 0 auto; padding-top: 50px; position: relative;">
-       <h2>Joule-Thomson Effect</h2>
+       <h2>Maxwellian Velocity Distribution</h2>
        <button class="ui primary button pull-right" onclick="window.location='/deney2/part2'" style="margin-top: -50px;">
 	 Save Your Results
        </button>
+       <div style="float:left; width: 100%;margin-top:10px; margin-bottom: 10px;">Determine the number of glass balls pushed out the apparatus during 60 seconds by
+	 running oscillator for 8 times.</div>
        <br>
-       <div style="margin-top:10px;">Adjust the initial pressure to the value 100kPa and reduce the pressure of 10kPa in steps. At each step wait one minute then record the temperature difference.</div>
-
-       <div style="width:30%;float:left;margin-top: 15px;text-align:center;">
-	 <table class="ui celled table" style="width: 200px;margin:0 auto;">
-	   <span style="font-weight:bold;">CO2</span>
-	   <thead>
-	     <tr>
-	       <th style="width: 100px;">P (kPa)</th>
-	       <th style="width: 100px;">dT (K)</th>
-	     </tr>
-	   </thead>
-	   <tbody>
-	     {% for i in range(11) %}
-	     <tr>
-	       <td style="">
-		 {{ 100 - i * 10 }}
-	       </td>
-	       <td style="padding:0;">
-		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="width: 100%;border:none;">
-		 </div>
-	       </td>
-	       </tr>
-	       {% endfor %}
-	   </tbody>
-	   </table>
-       </div>
-       <div style="width:30%;float:left;margin-top: 15px;text-align:center;">
-	 <table class="ui celled table" style="width: 200px;margin:0 auto;">
-	   <span style="font-weight:bold;">N2</span>
-	   <thead>
-	     <tr>
-	       <th style="width: 100px;">P (kPa)</th>
-	       <th style="width: 100px;">dT (K)</th>
-	     </tr>
-	   </thead>
-	   <tbody>
-	     {% for i in range(11) %}
-	     <tr>
-	       <td style="">
-		 {{ 100 - i * 10 }}
-	       </td>
-	       <td style="padding:0;">
-		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="width: 100%;border:none;">
-		 </div>
-	       </td>
-	       </tr>
-	       {% endfor %}
-	   </tbody>
-	   </table>
+       {% for i in range(8) %}
+       <div class="ui fluid labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float:left; margin-bottom: 10px;">
+	 <div class="ui label">
+	   A{{i+1}}
 	 </div>
-	 </br>
+	 <input type="text" placeholder="#number" style="width: 110px;" id="mcup">
+       </div>
+       {% endfor %}
+	 <br>
+	 <span style="float:left;">The average number of balls is </span>
+	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="mcold" disabled>
+	 </div>
+	 <br>
+
+       <div style="width:50%;float:left;margin-top: 15px;text-align:center;">
+	 <table class="ui celled table" style="width: 360px;margin:0 auto;">
+	   <thead>
+	     <tr>
+	       <th style="width: 120px;">Comparments</th>
+	       <th style="width: 120px;">Weight (mg)</th>
+	       <th style="width: 120px;"># of Balls</th>
+	     </tr>
+	   </thead>
+	   <tbody>
+	     {% for i in range(24) %}
+	     <tr>
+	       <td style="">
+		 {{ i+1 }}
+	       </td>
+	       <td style="padding:0;">
+		 <div class="ui input" style="width: 100%;">
+		   <input type="text" placeholder="#number" style="width: 100%;border:none;">
+		 </div>
+	       </td>
+	       <td style="">
+		 --
+	       </td>
+	     </tr>
+	     {% endfor %}
+	   </tbody>
+	 </table>
+       </div>
+       <br>
      </div> <!-- container -->
      <script>
        {% include 'js/deney2.js' %}
