@@ -113,7 +113,7 @@
 
 	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
 	 <div style="height: 40px; width: 100%">
-	   <button class="ui primary button pull-left" style="margin-top: 20px;" onclick="calculate_part_two();">
+	   <button class="ui primary button pull-left" style="margin-top: 20px;" onclick="calculate();">
 	     Calculate Results
 	   </button>
 	 </div>
@@ -121,18 +121,12 @@
 	 
 	 <span style="float:left;">The slope of the graph is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="mcold" disabled>
-	   <div class="ui basic label">
-	     g
-	   </div>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="slope" disabled>
 	 </div>
 	 <br>
 	 <span style="float:left;">The thermal expansion coefficient is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="mcold" disabled>
-	   <div class="ui basic label">
-	     g
-	   </div>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="a" disabled>
 	 </div>
 	 <br>
 	 <span style="float:left;">The absolute error is </span>
@@ -142,7 +136,7 @@
 	 <br>
 	 <span style="float:left;">and the relative error is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="rel_error" disabled>
 	 </div>
 	 <br>
      </div> <!-- container -->

@@ -37,7 +37,7 @@
 	       </td>
 	       <td style="padding:0;">
 		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="width: 100%;border:none;">
+		   <input type="text" placeholder="#number" style="width: 100%;border:none;" id="CO2_V_{{loop.index}}">
 		 </div>
 	       </td>
 	       </tr>
@@ -62,7 +62,7 @@
 	       </td>
 	       <td style="padding:0;">
 		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="width: 100%;border:none;">
+		   <input type="text" placeholder="#number" style="width: 100%;border:none;" id="N2_V_{{loop.index}}">
 		 </div>
 	       </td>
 	       </tr>
@@ -71,8 +71,15 @@
 	   </table>
 	 </div>
 	 </br>
-     </div> <!-- container -->
+	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+	   <div style="height: 40px; width: 100%">
+	     <button class="ui primary button pull-left" style="margin-top: 20px;" onclick="calculate();">
+	       Calculate Results
+	     </button>
+	   </div>
+	   <div class="ui section divider"></div>
+	 </div> <!-- container -->
      <script>
-       {% include 'js/deney2.js' %}
+       {% include 'js/deney7.js' %}
      </script>
    </body>

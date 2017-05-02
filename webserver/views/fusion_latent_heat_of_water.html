@@ -92,7 +92,7 @@
 
 	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
 	 <div style="height: 40px; width: 100%">
-	   <button class="ui primary button pull-left" style="margin-top: 20px;" onclick="calculate_part_two();">
+	   <button class="ui primary button pull-left" style="margin-top: 20px;" onclick="calculate();">
 	     Calculate Results
 	   </button>
 	 </div>
@@ -101,16 +101,16 @@
 	 
 	 <span style="float:left;">The heat energy given off by the vessel+hot water equals to</span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
-	   <div class="ui basic label" id="Q_out">
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="Q_out" disabled>
+	   <div class="ui basic label">
 	     cal/g°C
 	   </div>
 	 </div>
 	 <br>
 	 <span style="float:left;">Latent heat for solid to liquid phase change of water is</span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
-	   <div class="ui basic label" id="L">
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="L" disabled>
+	   <div class="ui basic label">
 	     J/g
 	   </div>
 	 </div>

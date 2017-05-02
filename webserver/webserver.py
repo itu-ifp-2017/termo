@@ -55,10 +55,14 @@ def serve():
         ("/deney2", Deney2),
         ("/deney2/(.*)", Deney2),
         ("/deney3", Deney3),
+        ("/deney3/(.*)", Deney3),
         ("/deney4", Deney4),
+        ("/deney4/(.*)", Deney4),
         ("/deney5", Deney5),
+        ("/deney5/(.*)", Deney5),
         ("/deney6", Deney6),
         ("/deney7", Deney7),
+        ("/deney7/(.*)", Deney7),
         ("/deney8", Deney8),
         ("/done/(.*)", EmptyTemplateLoader),
         ("/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), 'plots')})
@@ -131,6 +135,7 @@ class Deney1(BaseHandler, TemplateRendering):
                 cursor = autosave.binomial_distribution.update_one({'username':username}, {'$set':document})
 
 class Deney2(BaseHandler, TemplateRendering):
+    @tornado.web.authenticated
     def get(self, pagename=None):
         if pagename is None:
             content = self.render_template('heat_capacity_of_solids_part_one.html')
@@ -159,6 +164,9 @@ class Deney2(BaseHandler, TemplateRendering):
 
         elif pagename == 'calculate_part_two':
             data = json.loads( self.request.body )
+            for k in data:
+                data[k] = float(data[k])
+                
             query = { 'username': username }
             docs = expdata.heat_capacity_of_solids_part_one.find(query)
             if docs:
@@ -167,21 +175,78 @@ class Deney2(BaseHandler, TemplateRendering):
                 document = physics.heat_capacity_of_multiple_materials(data, m, C)
                 query = {'username':username}
                 expdata.heat_capacity_of_solids_part_two.find_one_and_replace(query,document,upsert=True)
-            
+
 class Deney3(BaseHandler, TemplateRendering):
+    @tornado.web.authenticated
     def get(self):
+        username = tornado.escape.xhtml_escape(self.current_user)
         content = self.render_template('fusion_latent_heat_of_water.html')
         self.write(content)
 
+    @tornado.web.authenticated
+    def post(self, pagename=None):
+        username = tornado.escape.xhtml_escape(self.current_user)
+        if pagename == 'calculate':
+            data = json.loads( self.request.body )
+            for k in data:
+                data[k] = float(data[k])
+                
+            result = physics.latent_heat_of_water( **data )
+            document = data.copy()
+            document.update(result)
+            document['username'] = username
+            document['timestamp'] = int(time.time())
+            query = {'username':username}
+            expdata.fusion_latent_heat_of_water.find_one_and_replace(query,document,upsert=True)
+            self.write( result )
+
 class Deney4(BaseHandler, TemplateRendering):
+    @tornado.web.authenticated
     def get(self):
         content = self.render_template('thermal_expansion_coefficient_of_solids.html')
         self.write(content)
 
+    @tornado.web.authenticated
+    def post(self, pagename=None):
+        username = tornado.escape.xhtml_escape(self.current_user)
+        if pagename == 'calculate':
+            data = json.loads( self.request.body )
+            for k in data:
+                data[k] = float(data[k])
+                
+            result = physics.thermal_expansion_coefficient(**data)
+            document = data.copy()
+            document.update(result)
+            document['username'] = username
+            document['timestamp'] = int(time.time())
+            query = {'username':username}
+            expdata.thermal_expansion_coefficient_of_solids.find_one_and_replace(query,document,upsert=True)
+            self.write( result )
+
 class Deney5(BaseHandler, TemplateRendering):
+    @tornado.web.authenticated
     def get(self):
         content = self.render_template('ideal_gas_law.html')
         self.write(content)
+
+    @tornado.web.authenticated
+    def post(self, pagename=None):
+        username = tornado.escape.xhtml_escape(self.current_user)
+        if pagename == 'calculate':
+            data = json.loads( self.request.body )
+            for temp in data:
+                for k in data[temp]:
+                    data[temp][k] = float(data[temp][k])
+                
+                data[temp]['fig'] = physics.ideal_gas_graph(**data[temp])
+            
+            document = data.copy()
+            document['username'] = username
+            document['timestamp'] = int(time.time())
+            query = {'username':username}
+            expdata.ideal_gas_law.find_one_and_replace(query,document,upsert=True)
+            self.write( document )
+
 
 class Deney6(BaseHandler, TemplateRendering):
     def get(self):
@@ -192,6 +257,25 @@ class Deney7(BaseHandler, TemplateRendering):
     def get(self):
         content = self.render_template('joule_thomson_effect.html')
         self.write(content)
+
+    @tornado.web.authenticated
+    def post(self, pagename=None):
+        username = tornado.escape.xhtml_escape(self.current_user)
+        if pagename == 'calculate':
+            data = json.loads( self.request.body )
+            for gas in data:
+                for k in data[gas]:
+                    data[gas][k] = float(data[gas][k])
+                
+                data[gas].update( physics.joule_thomson(gas=gas, **data[gas]) )
+            
+            document = data.copy()
+            document['username'] = username
+            document['timestamp'] = int(time.time())
+            query = {'username':username}
+            expdata.joule_thomson.find_one_and_replace(query,document,upsert=True)
+            self.write( document )
+
 
 class Deney8(BaseHandler, TemplateRendering):
     def get(self):

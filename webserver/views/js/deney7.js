@@ -1,11 +1,10 @@
 function calculate(){
     var data = {}
-    var temperatures = ['10', '20', '30', '40', '50', '60']
-    var fields = ['V_1','V_2','V_3','V_4','V_5','P_1','P_2','P_3','P_4','P_5']
+    var gases = ['CO2', 'N2']
+    var fields = ['V_1','V_2','V_3','V_4','V_5','V_6','V_7','V_8','V_9','V_10','V_11']
     var valid_fields = true;
-    $.each(temperatures, function(key,val){
+    $.each(gases, function(key,val){
 	data[val] = {}
-	console.log(val,data[val])
 	$.each(fields, function(i,v){
 	    var value = $('#'+val+'_'+v).val();
 	    data[val][v] = value;
@@ -15,7 +14,7 @@ function calculate(){
     console.log(data);
     if(valid_fields){
 	$.ajax({
-	    url : "/deney5/calculate",
+	    url : "/deney7/calculate",
 	    type: "POST",
 	    data : JSON.stringify(data)
 	}).success( function(data, textStatus, jqXHR){
