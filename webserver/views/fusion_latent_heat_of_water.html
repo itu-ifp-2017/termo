@@ -22,7 +22,7 @@
 	   <div class="ui label">
 	     M1
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="m1">
 	   <div class="ui basic label">
 	     g
 	   </div>
@@ -33,7 +33,7 @@
 	   <div class="ui label">
 	     M2
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="m2">
 	   <div class="ui basic label">
 	     g
 	   </div>
@@ -41,7 +41,7 @@
 	 <br>
 	 <span style="float:left;">The mass of the hot water is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled id="m_water">
 	   <div class="ui basic label">
 	     g
 	   </div>
@@ -52,7 +52,7 @@
 	   <div class="ui label">
 	     T1
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="T1">
 	   <div class="ui basic label">
 	     °C
 	   </div>
@@ -63,7 +63,7 @@
 	   <div class="ui label">
 	     M3
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="m3">
 	   <div class="ui basic label">
 	     g
 	   </div>
@@ -71,7 +71,7 @@
 	 <br>
 	 <span style="float:left;">The mass of the ice is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled id="m_ice">
 	   <div class="ui basic label">
 	     g
 	   </div>
@@ -83,16 +83,26 @@
 	   <div class="ui label">
 	     Teq
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="T2">
 	   <div class="ui basic label">
 	     °C
 	   </div>
 	 </div>
 	 <br>
+
+	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+	 <div style="height: 40px; width: 100%">
+	   <button class="ui primary button pull-left" style="margin-top: 20px;" onclick="calculate_part_two();">
+	     Calculate Results
+	   </button>
+	 </div>
+	 <div class="ui section divider"></div>
+	 
+	 
 	 <span style="float:left;">The heat energy given off by the vessel+hot water equals to</span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
 	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
-	   <div class="ui basic label">
+	   <div class="ui basic label" id="Q_out">
 	     cal/g°C
 	   </div>
 	 </div>
@@ -100,17 +110,18 @@
 	 <span style="float:left;">Latent heat for solid to liquid phase change of water is</span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
 	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
-	   <div class="ui basic label">
+	   <div class="ui basic label" id="L">
 	     J/g
 	   </div>
 	 </div>
 	 <br>
 	 <span style="float:left;">and the relative error is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled id="rel_error">
 	 </div>
 	 <br>
      </div> <!-- container -->
-     <script>
+	 <script>
+	   {% include 'js/deney3.js' %}
      </script>
    </body>

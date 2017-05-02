@@ -22,7 +22,7 @@
 	   <div class="ui label">
 	     L1
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="mcup">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="L1">
 	   <div class="ui basic label">
 	     mm
 	   </div>
@@ -33,7 +33,7 @@
 	   <div class="ui label">
 	     T1
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="mw_mcup">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="T1">
 	   <div class="ui basic label">
 	     C
 	   </div>
@@ -54,7 +54,7 @@
 	       <td>25</td>
 	       <td style="padding:0;">
 		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="border:none;">
+		   <input type="text" placeholder="#number" style="border:none;" id="L2">
 		 </div>
 	       </td>
 	     </tr>
@@ -62,7 +62,7 @@
 	       <td>30</td>
 	       <td style="padding:0;">
 		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="border:none;">
+		   <input type="text" placeholder="#number" style="border:none;" id="L3">
 		 </div>
 	       </td>
 	     </tr>
@@ -70,7 +70,7 @@
 	       <td>40</td>
 	       <td style="padding:0;">
 		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="border:none;">
+		   <input type="text" placeholder="#number" style="border:none;" id="L4">
 		 </div>
 	       </td>
 	     </tr>
@@ -78,7 +78,7 @@
 	       <td>50</td>
 	       <td style="padding:0;">
 		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="border:none;">
+		   <input type="text" placeholder="#number" style="border:none;" id="L5">
 		 </div>
 	       </td>
 	     </tr>
@@ -86,7 +86,7 @@
 	       <td>60</td>
 	       <td style="padding:0;">
 		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="border:none;">
+		   <input type="text" placeholder="#number" style="border:none;" id="L6">
 		 </div>
 	       </td>
 	     </tr>
@@ -94,7 +94,7 @@
 	       <td>70</td>
 	       <td style="padding:0;">
 		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="border:none;">
+		   <input type="text" placeholder="#number" style="border:none;" id="L7">
 		 </div>
 	       </td>
 	     </tr>
@@ -102,7 +102,7 @@
 	       <td>80</td>
 	       <td style="padding:0;">
 		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="border:none;">
+		   <input type="text" placeholder="#number" style="border:none;" id="L8">
 		 </div>
 	       </td>
 	     </tr>
@@ -110,6 +110,15 @@
 	   </table>
 	 </div>
 	 </br>
+
+	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+	 <div style="height: 40px; width: 100%">
+	   <button class="ui primary button pull-left" style="margin-top: 20px;" onclick="calculate_part_two();">
+	     Calculate Results
+	   </button>
+	 </div>
+	 <div class="ui section divider"></div>
+	 
 	 <span style="float:left;">The slope of the graph is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
 	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="mcold" disabled>
@@ -138,6 +147,6 @@
 	 <br>
      </div> <!-- container -->
      <script>
-       {% include 'js/deney2.js' %}
+       {% include 'js/deney4.js' %}
      </script>
    </body>

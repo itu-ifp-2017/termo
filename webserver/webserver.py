@@ -19,11 +19,13 @@ import matplotlib.pyplot as plt
 import time
 from physics import physics
 import json
+import pandas as pd
 
 root = os.path.dirname(__file__)
 define('port', type=int, default=8080)
 chars = ''.join([string.ascii_letters, string.digits, string.punctuation]).replace('\'', '').replace('"', '').replace('\\', '')
 secret_key = ''.join([random.SystemRandom().choice(chars) for i in range(100)])
+secret_key = 'abc'
 settings = {
     "cookie_secret": secret_key,
     "login_url": "/login",
@@ -138,7 +140,9 @@ class Deney2(BaseHandler, TemplateRendering):
             content = self.render_template('heat_capacity_of_solids_part_two.html')
             self.write(content)
 
+    @tornado.web.authenticated
     def post(self, pagename):
+        username = tornado.escape.xhtml_escape(self.current_user)
         if pagename == 'calculate_part_one':
             data = {}
             for arg in self.request.arguments:
@@ -147,16 +151,23 @@ class Deney2(BaseHandler, TemplateRendering):
             result = physics.heatcapacity(**data)
             document = data.copy()
             document.update(result)
-            document['username'] = 's'
+            document['username'] = username
             document['timestamp'] = int(time.time())
-            expdata.heat_capacity_of_solids_part_one.insert_one(document)
+            query = {'username':username}
+            expdata.heat_capacity_of_solids_part_one.find_one_and_replace(query,document,upsert=True)
             self.write( result )
 
         elif pagename == 'calculate_part_two':
             data = json.loads( self.request.body )
-            # retrieve ccal from db and feed it as C
-            physics.dene(**data)
-
+            query = { 'username': username }
+            docs = expdata.heat_capacity_of_solids_part_one.find(query)
+            if docs:
+                C = docs[0]['ccal']
+                m = docs[0]['m1'] - docs[0]['mcup']
+                document = physics.heat_capacity_of_multiple_materials(data, m, C)
+                query = {'username':username}
+                expdata.heat_capacity_of_solids_part_two.find_one_and_replace(query,document,upsert=True)
+            
 class Deney3(BaseHandler, TemplateRendering):
     def get(self):
         content = self.render_template('fusion_latent_heat_of_water.html')
