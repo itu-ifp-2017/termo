@@ -20,3 +20,7 @@ function calculate(){
 	});
     }
 }
+
+$.each(data, function(key,val){
+    $('#'+key).val(val);
+});

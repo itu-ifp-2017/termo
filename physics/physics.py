@@ -8,15 +8,16 @@ import os
 
 def binomial_distribution(data):
     numtails = pd.Series(data)
-    hdata = pd.Series(Counter(numtails)).reindex(range(0,11)).fillna(0).astype(int)
+    hdata = pd.Series(Counter(numtails)).fillna(0) # .reindex(range(0,11)).fillna(0).astype(int)
     plot = hdata.plot(kind='bar')
     fig = plot.get_figure()
     timestamp = int(time.time())
     output_file = str(timestamp) + ".png"
     fig.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))
+    return output_file
 
 
-def heatcapacity(mcup, m1, T1, T2, Teq, m2):
+def heat_capacity_of_solids(mcup, m1, T1, T2, Teq, m2):
     m = m1 - mcup
     M = m2 - m1
     c = 1.0
@@ -35,16 +36,16 @@ def heatcapacity(mcup, m1, T1, T2, Teq, m2):
         'rel_error': '%'+str(round(r_error,2))
     }
 
-def heat_capacity_of_multiple_materials(data, C):
+def heat_capacity_of_multiple_materials(data, m, C):
     for key in data:
-        heat_cap = calculate_heat_capacity_of_material(data[key], C)
+        heat_cap = calculate_heat_capacity_of_material(data[key], m, C)
         data[key]['c_material'] = heat_cap['c_material']
         data[key]['rel_error'] = heat_cap['rel_error']
 
     return data
 
-def calculate_heat_capacity_of_material(material, C):
-    c_material = ( ( float(material['Tf']) - float(material['T1']) ) * float(material['m_water']) ) + ( float(C) * ( float(material['Tf']) - float(material['T1']) ) ) / abs ( float(material['m']) * ( float(material['Tf']) - float(material['T1']) ) )
+def calculate_heat_capacity_of_material(material, m, C):
+    c_material = ( ( float(material['Tf']) - float(material['T1']) ) * float(material['m_water']) ) + ( float(C) * ( float(material['Tf']) - float(material['T1']) ) ) / abs ( m * ( float(material['Tf']) - float(material['T1']) ) )
     rel_error = abs( float(material['c_real']) - c_material ) * 100.0 / float(material['c_real'])
     return {
         'c_material': round(c_material, 2),
@@ -71,7 +72,9 @@ def latent_heat_of_water(m1, m2, T1, m3, T2):
     return {
         'Q_out': round(Q_out, 2),
         'L': round(L, 2),
-        'rel_error': '%'+str(round(L_error,2))
+        'rel_error': '%'+str(round(L_error,2)),
+        'm_water': round(m_water,2),
+        'm_ice': round(m_ice,2)
     }
 
 def thermal_expansion_coefficient(T1, L1, L2, L3, L4, L5, L6, L7, L8, a_real=24):

@@ -16,7 +16,7 @@
        <h2>Heat Capacity of Solids</h2>
        <h3>Part I - heat capacity of calorimeter vessel</h3>
        <button class="ui primary button pull-right" onclick="window.location='/deney2/part2'" style="margin-top: -50px;">
-	 Save & Go To Part II
+	 Proceed To Part II
        </button>
        <span style="float:left; margin-top:10px;">Weigh the calorimeter vessel (together with its lid) when it is empty.</span>
 	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px;">
@@ -120,16 +120,17 @@
 	 <br>
 	 <span style="float:left;">The absolute error is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="abs_error" disabled>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="abs_error" disabled>
 	 </div>
 	 <br>
 	 <span style="float:left;">and the relative error is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="rel_error" disabled>
+	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="rel_error" disabled>
 	 </div>
 	 <br>
      </div> <!-- container -->
      <script>
+       data = {{data}}
        {% include 'js/deney2.js' %}
      </script>
    </body>

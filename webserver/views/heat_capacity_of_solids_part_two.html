@@ -15,9 +15,9 @@
      <div class="ui container" style="width: 1080px; height: 1150px; margin: 0 auto; padding-top: 50px; position: relative;">
        <h2>Heat Capacity of Solids</h2>
        <h3>Part II - the specific heat of solids</h3>
-       <button class="ui primary button pull-right" onclick="" style="margin-top: -50px;">
-	 Save Your Results
-       </button>
+       <a class="ui primary button pull-right" href="/deney2" style="margin-top: -50px;">
+	 Turn Back & Edit Data
+       </a>
        <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">Record the mass of the water.</div>
        <br>
 	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
@@ -213,7 +213,7 @@
 	   <div class="ui basic label">
 	     glass
 	   </div>
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="glass_c_material" disabled>
 	   <div class="ui basic label">
 	     cal/g°C
 	   </div>
@@ -222,7 +222,7 @@
 	   <div class="ui basic label">
 	     iron
 	   </div>
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="iron_c_material" disabled>
 	   <div class="ui basic label">
 	     cal/g°C
 	   </div>
@@ -231,7 +231,7 @@
 	   <div class="ui basic label">
 	     graphite
 	   </div>
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="graphite_c_material" disabled>
 	   <div class="ui basic label">
 	     cal/g°C
 	   </div>
@@ -243,25 +243,26 @@
 	   <div class="ui basic label">
 	     glass
 	   </div>
-	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="glass_rel_error" disabled>
 	 </div>
 	 <div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
 	   <div class="ui basic label">
 	     iron
 	   </div>
-	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="iron_rel_error" disabled>
 	 </div>
 	 <div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
 	   <div class="ui basic label">
 	     graphite
 	   </div>
-	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" disabled>
+	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="graphite_rel_error" disabled>
 	 </div>
 	 <br>
 
 
      </div> <!-- container -->
      <script>
+       data = {{data}}
        {% include 'js/deney2.js' %}
      </script>
    </body>

@@ -14,7 +14,7 @@
    <body>
      <div class="ui container" style="width: 1080px; height: 1150px; margin: 0 auto; padding-top: 50px; position: relative;">
        <h2>Fusion Latent Heat of Water</h2>
-       <button class="ui primary button pull-right" onclick="window.location='/deney2/part2'" style="margin-top: -50px;">
+       <button class="ui primary button pull-right" style="margin-top: -50px;display:none;">
 	 Save Your Results
        </button>
        <span style="float:left; margin-top:10px;">Weigh the calorimeter vessel (together with its lid) when it is empty.</span>
@@ -122,6 +122,7 @@
 	 <br>
      </div> <!-- container -->
 	 <script>
+	   data = {{data}}
 	   {% include 'js/deney3.js' %}
      </script>
    </body>

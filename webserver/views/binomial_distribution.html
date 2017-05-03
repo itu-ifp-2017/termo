@@ -25,7 +25,7 @@
 	   <div class="ui basic label">
 	     #{{i+1}}
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="{{i+1}}">
 	 </div>
 	 {% if i%28 == 27 %}
        </div>
@@ -36,6 +36,8 @@
        </button>
      </div> <!-- container -->
      <script>
+       data = {{data}}
+       autosave_data = {{autosave_data}}
        {% include 'js/deney1.js' %}
      </script>
    </body>

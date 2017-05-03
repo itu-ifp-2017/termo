@@ -65,7 +65,7 @@ def serve():
         ("/deney7/(.*)", Deney7),
         ("/deney8", Deney8),
         ("/done/(.*)", EmptyTemplateLoader),
-        ("/static/(.*)", tornado.web.StaticFileHandler, {"path": os.path.join(os.path.dirname(__file__), 'plots')})
+        ("/static/(.*)", tornado.web.StaticFileHandler, {"path": '/root/termo/physics/plots/'})
     ], **settings)
     server = tornado.httpserver.HTTPServer(tornado_app)
     server.listen(options.port)
@@ -101,86 +101,125 @@ class Deney1(BaseHandler, TemplateRendering):
         if pagename == 'sonuc':
             username = tornado.escape.xhtml_escape(self.current_user)
             query = { 'username': username }
-            files = []
-            for doc in expdata.binomial_distribution.find(query):
-                files.append( int(doc['file'].split('.')[0]) )
-
-            img = str(max(files)) + '.png'
-            content = self.render_template('sonuc.html', {'img': '/static/'+str(img)} )
+            document = expdata.binomial_distribution.find_one(query)
+            content = self.render_template('sonuc.html', {'img': str(document['fig'])} )
             self.write(content)
             
         else:
-            content = self.render_template('binomial_distribution.html')
-            self.write(content)
+            username = tornado.escape.xhtml_escape(self.current_user)
+            query = { 'username': username }
+            document = expdata.binomial_distribution.find(query)
+            data = {}
+            autosave_data = {}
+            if document.count():
+                for k in document[0]['data']:
+                    data[str(k)] = str(document[0]['data'][k])
 
+            else:
+                autosave_document = autosave.binomial_distribution.find(query)
+                if autosave_document.count():
+                    for k in autosave_document[0]['data']:
+                        autosave_data[str(k)] = str(autosave_document[0]['data'][k])
+                    
+            content = self.render_template('binomial_distribution.html', {'data': data, 'autosave_data': autosave_data})
+            self.write(content)
+            
     @tornado.web.authenticated
     def post(self, method):
         username = tornado.escape.xhtml_escape(self.current_user)
         if method == 'data':
-            data = []
-            for i in self.request.arguments:
-                data.append( int(self.request.arguments[i][0]) )
-                
+            data = json.loads( self.request.body )
             output_file = physics.binomial_distribution(data)
-            document = { 'username': username, 'file': output_file }
-            cursor = expdata.binomial_distribution.insert_one(document)    
+            query = { 'username': username }
+            document = { 'username': username, 'data': data, 'fig': output_file }
+            expdata.binomial_distribution.find_one_and_replace(query,document,upsert=True)
             self.write('/deney1/sonuc')
 
         elif method == 'autosave':
-            data = self.request.arguments
+            data = json.loads( self.request.body )
+            query = {'username': username}
             document = {'username': username, 'data': data }
-            if not autosave.binomial_distribution.find_one({'username':username}):
-                cursor = autosave.binomial_distribution.insert_one(document)
-            else:
-                cursor = autosave.binomial_distribution.update_one({'username':username}, {'$set':document})
+            autosave.binomial_distribution.find_one_and_replace(query,document,upsert=True)
 
 class Deney2(BaseHandler, TemplateRendering):
     @tornado.web.authenticated
     def get(self, pagename=None):
+        username = tornado.escape.xhtml_escape(self.current_user)
         if pagename is None:
-            content = self.render_template('heat_capacity_of_solids_part_one.html')
+            query = {'username': username}
+            document = expdata.heat_capacity_of_solids_part_one.find_one(query)
+            data = {}
+            if document:
+                for k in document:
+                    data[str(k)] = str(document[k])
+                    
+            content = self.render_template('heat_capacity_of_solids_part_one.html', {'data': data})
             self.write(content)
 
         else:
-            content = self.render_template('heat_capacity_of_solids_part_two.html')
+            query = {'username': username}
+            document = expdata.heat_capacity_of_solids_part_two.find_one(query)
+            data = {}
+            print document
+            if document:
+                for material in document:
+                    if material in ['glass', 'iron', 'graphite']:
+                        data[str(material)] = {}
+                        for k in document[material]:
+                            data[str(material)][str(k)] = str(document[material][k])
+
+            content = self.render_template('heat_capacity_of_solids_part_two.html', {'data': data})
             self.write(content)
 
     @tornado.web.authenticated
     def post(self, pagename):
         username = tornado.escape.xhtml_escape(self.current_user)
         if pagename == 'calculate_part_one':
-            data = {}
-            for arg in self.request.arguments:
-                data[arg] = float( self.request.arguments[arg][0] )
+            data = json.loads( self.request.body )
+            new_data = {}
+            for k in data:
+                new_data[str(k)] = float(data[k])
 
-            result = physics.heatcapacity(**data)
-            document = data.copy()
+            result = physics.heat_capacity_of_solids(**new_data)
+            document = new_data.copy()
             document.update(result)
             document['username'] = username
-            document['timestamp'] = int(time.time())
+            document['timestamp'] = time.time()
             query = {'username':username}
             expdata.heat_capacity_of_solids_part_one.find_one_and_replace(query,document,upsert=True)
             self.write( result )
 
         elif pagename == 'calculate_part_two':
             data = json.loads( self.request.body )
-            for k in data:
-                data[k] = float(data[k])
-                
+            for material in data:
+                for k in data[material]:
+                    data[material][k] = float(data[material][k])
+                    
             query = { 'username': username }
             docs = expdata.heat_capacity_of_solids_part_one.find(query)
             if docs:
                 C = docs[0]['ccal']
                 m = docs[0]['m1'] - docs[0]['mcup']
                 document = physics.heat_capacity_of_multiple_materials(data, m, C)
+                document['username'] = username
+                document['timestamp'] = time.time()
                 query = {'username':username}
                 expdata.heat_capacity_of_solids_part_two.find_one_and_replace(query,document,upsert=True)
+                print document
+                self.write( document )
 
 class Deney3(BaseHandler, TemplateRendering):
     @tornado.web.authenticated
     def get(self):
         username = tornado.escape.xhtml_escape(self.current_user)
-        content = self.render_template('fusion_latent_heat_of_water.html')
+        query = {'username': username}
+        document = expdata.fusion_latent_heat_of_water.find_one(query)
+        data = {}
+        if document:
+            for k in document:
+                data[str(k)] = str(document[k])
+
+        content = self.render_template('fusion_latent_heat_of_water.html', {'data': data})
         self.write(content)
 
     @tornado.web.authenticated

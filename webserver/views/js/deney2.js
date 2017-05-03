@@ -1,3 +1,15 @@
+$.each(data, function(key,val){
+    if(key=='glass' || key=='iron' || key=='graphite'){
+	$.each(val, function(k,v){
+	    $('#'+key+'_'+k).val(v);
+	});
+    }
+});
+
+$.each(data, function(key,val){
+    $('#'+key).val(val);
+});
+
 $('#m1').focusout(function(){
     if($(this).val() && $('#mcup').val()){
 	$('#mcold').css("text-align","right")
@@ -7,6 +19,8 @@ $('#m1').focusout(function(){
 	$('#mcold').val('');
     }
 });
+
+$('#m1').focusout();
 
 function calculate_part_one(){
     var data = {}
@@ -22,7 +36,7 @@ function calculate_part_one(){
 	$.ajax({
 	    url : "/deney2/calculate_part_one",
 	    type: "POST",
-	    data : data
+	    data : JSON.stringify(data)
 	}).success( function(data, textStatus, jqXHR){
 	    $.each(data, function(key,val){
 		$('#'+key).val(val);
@@ -34,7 +48,7 @@ function calculate_part_one(){
 function calculate_part_two(){
     var data = {}
     var materials = ['glass', 'iron', 'graphite']
-    var fields = ['m_water', 'T2', 'M', 'T1', 'Tf'];
+    var fields = ['m_water', 'T2', 'M', 'T1', 'Tf', 'c_real'];
     var valid_fields = true;
     $.each(materials, function(ind,val){
 	data[val] = {}
@@ -52,7 +66,11 @@ function calculate_part_two(){
 	    data : JSON.stringify(data)
 	}).success( function(data, textStatus, jqXHR){
 	    $.each(data, function(key,val){
-		$('#'+key).val(val);
+		if(key!='username' && key!='timestamp'){
+		    $.each(val, function(k,v){
+			$('#'+key+'_'+k).val(v);
+		    });
+		}
 	    });
 	});
     }
