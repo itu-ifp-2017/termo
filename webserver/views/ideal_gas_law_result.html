@@ -6,12 +6,19 @@
   </head>
   <body>
     <div class="ui container" style="width: 1200px; margin: 0 auto;">
-      <p><h2>Experiment Results for Binomial Distribution</h2></p>
-      <img src="/static/{{img}}">
+      <p><h2>Experiment Results for Ideal Gas</h2></p>
+      {% for key, val in data.iteritems() %}
+      {% if val.fig %}
+      <p style="font-weight:bold;">{{ key }}</p>
+      <img src="/static/{{val.fig}}">
+            </br>
+	    {% endif %}
+	    {% endfor %}
+	    
     </div>
     <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
       <div style="height: 40px; width: 100%">
-	<a class="ui primary button pull-left" style="margin-top: 20px;" href="/deney1">
+	<a class="ui primary button pull-left" style="margin-top: 20px;" href="/deney5">
 	  Turn Back & Edit Data
 	</a>
       </div>

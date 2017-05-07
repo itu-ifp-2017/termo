@@ -19,10 +19,13 @@ function calculate(){
 	    type: "POST",
 	    data : JSON.stringify(data)
 	}).success( function(data, textStatus, jqXHR){
-	    console.log(data);
-	    $.each(data, function(key,val){
-		$('#'+key).val(val);
-	    });
+	    if(Object.keys(data).length) window.location = '/deney5/result';
 	});
     }
 }
+
+$.each(data, function(key,val){
+    $.each(val, function(i,v){
+	$('#'+key+'_'+i).val(v);
+    });
+});

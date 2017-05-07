@@ -1,0 +1,24 @@
+{% extends "navigation.html" %}
+{% block css %}
+{% include 'css/student_home.css' %}
+{% endblock %}
+{% block content %}
+<p><h2>Experiments</h2></p>
+<table class="ui fixed table">
+  <thead>
+    <tr>
+      <th style="width: 50px;">#No</th>
+      <th style="width: 350px;">Name</th>
+      <th style="width: 798px;">Latest Data</th>
+  </tr></thead>
+  <tbody>
+    {% for item in list %}
+    <tr id="{{item.no}}" collection="{{item.collection}}" onclick="window.location='/deney{{item.no}}'">
+      <td>{{loop.index}}</td>
+      <td>{{item.name}}</td>
+      <td>{{user_data[item.collection]}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

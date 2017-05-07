@@ -20,6 +20,7 @@ import time
 from physics import physics
 import json
 import pandas as pd
+from datetime import datetime
 
 root = os.path.dirname(__file__)
 define('port', type=int, default=8080)
@@ -40,6 +41,7 @@ mongoclient = MongoClient('mongodb', 27017)
 userdata = mongoclient.userdata
 expdata = mongoclient.expdata
 autosave = mongoclient.autosave
+experiments = mongoclient.experiments
 
 def serve():
     print "web_server:serve"
@@ -102,7 +104,7 @@ class Deney1(BaseHandler, TemplateRendering):
             username = tornado.escape.xhtml_escape(self.current_user)
             query = { 'username': username }
             document = expdata.binomial_distribution.find_one(query)
-            content = self.render_template('sonuc.html', {'img': str(document['fig'])} )
+            content = self.render_template('binomial_distribution_result.html', {'img': str(document['fig'])} )
             self.write(content)
             
         else:
@@ -242,7 +244,16 @@ class Deney3(BaseHandler, TemplateRendering):
 class Deney4(BaseHandler, TemplateRendering):
     @tornado.web.authenticated
     def get(self):
-        content = self.render_template('thermal_expansion_coefficient_of_solids.html')
+        username = tornado.escape.xhtml_escape(self.current_user)
+        query = {'username': username}
+        document = expdata.thermal_expansion_coefficient_of_solids.find_one(query)
+        data = {}
+        if document:
+            for k in document:
+                data[str(k)] = str(document[k])
+
+        print document
+        content = self.render_template('thermal_expansion_coefficient_of_solids.html', {'data': data})
         self.write(content)
 
     @tornado.web.authenticated
@@ -264,9 +275,36 @@ class Deney4(BaseHandler, TemplateRendering):
 
 class Deney5(BaseHandler, TemplateRendering):
     @tornado.web.authenticated
-    def get(self):
-        content = self.render_template('ideal_gas_law.html')
-        self.write(content)
+    def get(self, pagename=None):
+        if pagename == 'result':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            query = {'username': username}
+            document = expdata.ideal_gas_law.find_one(query)
+            data = {}
+            if document:
+                for deg in document:
+                    if deg not in ['username', 'timestamp', '_id']:
+                        data[str(deg)] = {}
+                        for k in document[deg]:
+                            data[str(deg)][str(k)] = str(document[deg][k])
+
+            content = self.render_template('ideal_gas_law_result.html', { 'data': data })
+            self.write(content)
+            
+        else:
+            username = tornado.escape.xhtml_escape(self.current_user)
+            query = {'username': username}
+            document = expdata.ideal_gas_law.find_one(query)
+            data = {}
+            if document:
+                for deg in document:
+                    if deg not in ['username', 'timestamp', '_id']:
+                        data[str(deg)] = {}
+                        for k in document[deg]:
+                            data[str(deg)][str(k)] = str(document[deg][k])
+                    
+            content = self.render_template('ideal_gas_law.html', {'data': data})
+            self.write(content)
 
     @tornado.web.authenticated
     def post(self, pagename=None):
@@ -321,12 +359,22 @@ class Deney8(BaseHandler, TemplateRendering):
         content = self.render_template('thermal_and_electrical_conductivity_of_metals.html')
         self.write(content)
     
-class Welcome(BaseHandler):
+class Welcome(BaseHandler, TemplateRendering):
     @tornado.web.authenticated
     def get(self):
         username = tornado.escape.xhtml_escape(self.current_user)
-        self.write('<html><body><h2>Hello ' + str(username) + '!</h2></body></html>'
-                   '<a href="/logout">Logout</a>')
+        # self.write('<html><body><h2>Hello ' + str(username) + '!</h2></body></html>'
+        #            '<a href="/logout">Logout</a>')
+        experiment_list = experiments.experiment_list.find_one({})['list']
+        user_data = {}
+        for exp in expdata.collection_names():
+            doc = expdata[exp].find_one({'username': username}, {'timestamp': 1})
+            if doc and 'timestamp' in doc:
+                user_data[exp] = datetime.fromtimestamp( doc['timestamp'] ).strftime('%b %d, %Y %H:%M')
+                
+        content = self.render_template('student_home.html',{'list':experiment_list, 'user_data': user_data} )
+        self.write(content)
+        
 
 class Logout(BaseHandler):
     def get(self):
