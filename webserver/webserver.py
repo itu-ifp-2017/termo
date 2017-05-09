@@ -106,6 +106,10 @@ class Deney1(BaseHandler, TemplateRendering):
             document = expdata.binomial_distribution.find_one(query)
             content = self.render_template('binomial_distribution_result.html', {'img': str(document['fig'])} )
             self.write(content)
+
+        # elif pagename == 'all':
+        #     documents = expdata.binomial_distribution.find({})
+        #     content = self.render_template('binomial_distribution_result.html', {'img': str(document['fig'])} )
             
         else:
             username = tornado.escape.xhtml_escape(self.current_user)
@@ -363,8 +367,6 @@ class Welcome(BaseHandler, TemplateRendering):
     @tornado.web.authenticated
     def get(self):
         username = tornado.escape.xhtml_escape(self.current_user)
-        # self.write('<html><body><h2>Hello ' + str(username) + '!</h2></body></html>'
-        #            '<a href="/logout">Logout</a>')
         experiment_list = experiments.experiment_list.find_one({})['list']
         user_data = {}
         for exp in expdata.collection_names():
