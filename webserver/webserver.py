@@ -369,13 +369,24 @@ class Welcome(BaseHandler, TemplateRendering):
         username = tornado.escape.xhtml_escape(self.current_user)
         experiment_list = experiments.experiment_list.find_one({})['list']
         user_data = {}
-        for exp in expdata.collection_names():
-            doc = expdata[exp].find_one({'username': username}, {'timestamp': 1})
-            if doc and 'timestamp' in doc:
-                user_data[exp] = datetime.fromtimestamp( doc['timestamp'] ).strftime('%b %d, %Y %H:%M')
-                
-        content = self.render_template('student_home.html',{'list':experiment_list, 'user_data': user_data} )
-        self.write(content)
+        userdoc = userdata.auth.find_one({'username': username}, {'lecturer_flag': 1})
+        if 'lecturer_flag' in userdoc and userdoc['lecturer_flag']:
+            for exp in expdata.collection_names():
+                doc = expdata[exp].find({})
+                if doc:
+                    user_data[exp] = doc.count()
+
+            content = self.render_template('lecturer_home.html',{'list':experiment_list, 'user_data': user_data} )
+            self.write(content)
+            
+        else:
+            for exp in expdata.collection_names():
+                doc = expdata[exp].find_one({'username': username}, {'timestamp': 1})
+                if doc and 'timestamp' in doc:
+                    user_data[exp] = datetime.fromtimestamp( doc['timestamp'] ).strftime('%b %d, %Y %H:%M')
+
+            content = self.render_template('student_home.html',{'list':experiment_list, 'user_data': user_data} )
+            self.write(content)
         
 
 class Logout(BaseHandler):
@@ -428,10 +439,11 @@ class Register(BaseHandler, TemplateRendering):
 
     @tornado.gen.coroutine
     def post(self):
+        lecturer_flag = True if self.get_argument("lecturer") and self.get_argument("lecturer") == "hoca" else False
         hashed_password_with_salt = yield executor.submit(
             bcrypt.hashpw, tornado.escape.utf8(self.get_argument("password")),
             bcrypt.gensalt())
-        cursor = register_user(self.get_argument("username"), hashed_password_with_salt)
+        cursor = register_user(self.get_argument("username"), hashed_password_with_salt, lecturer_flag=lecturer_flag)
         if cursor:
             self.set_secure_cookie("username", str( cursor['username'] ))
             self.redirect("/")
@@ -491,12 +503,15 @@ def get_user_password_from_db(username):
     else:
         return None
 
-def register_user(username, hashed_password, student_name=None):
+def register_user(username, hashed_password, student_name=None, lecturer_flag=False):
     query = { 'username': username }
     if not userdata.auth.find_one(query):
         document = { 'username': username, 'password': hashed_password }
         if student_name is not None:
             document['student_name'] = student_name
+
+        if lecturer_flag:
+            document['lecturer_flag'] = True
             
         cursor = userdata.auth.insert_one(document)
         return {
