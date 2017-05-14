@@ -1,0 +1,40 @@
+{% extends "navigation.html" %}
+{% block content %}
+<p><h2>Experiment Results for Fusion Latent Heat of Water</h2></p>
+{% if all_flag %}
+{% for item in results %}
+<p style="font-weight: bold;">{{item.username}}
+</p>
+<span style="float:left;">The heat energy given off by the vessel+hot water equals to</span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{item.Q_out}}" disabled>
+  <div class="ui basic label">
+    cal/g°C
+  </div>
+</div>
+<br>
+<span style="float:left;">Latent heat for solid to liquid phase change of water is</span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{item.L}}" disabled>
+  <div class="ui basic label">
+    J/g
+  </div>
+</div>
+<br>
+<span style="float:left;">and the relative error is </span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{item.rel_error}}" disabled>
+</div>
+<br>
+<div class="ui section divider"></div>
+{% endfor %}
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+  <div style="height: 40px; width: 100%">
+    <a class="ui primary button pull-left" style="margin-top: 20px;" href="/">
+      Turn Back to Experiments
+    </a>
+  </div>
+  <div class="ui section divider"></div>
+</div>
+{% endif %}
+{% endblock %}

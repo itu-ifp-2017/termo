@@ -1,0 +1,91 @@
+{% extends "navigation.html" %}
+{% block content %}
+<p><h2>Experiment Results for Heat Capacity of Solids</h2></p>
+{% if all_flag %}
+{% for item in results %}
+<p style="font-weight: bold;">{{item.username}}
+</p>
+<span style="float:left;">Heat capacity of the calorimeter vessel is </span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="ccal" value="{{item.ccal}}" disabled>
+  <div class="ui basic label">
+    cal/gr°C
+  </div>
+</div>
+<br>
+<span style="float:left;">The absolute error is </span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="abs_error" value="{{item.abs_error}}" disabled>
+</div>
+<br>
+<span style="float:left;">and the relative error is </span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="rel_error" value="{{item.rel_error}}" disabled>
+</div>
+<br>
+
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">The specific heat capacity of your samples are</div>
+<br>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    glass
+  </div>
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" value="{{item.glass.c_material}}" disabled>
+  <div class="ui basic label">
+    cal/g°C
+  </div>
+</div>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    iron
+  </div>
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" value="{{item.iron.c_material}}" disabled>
+  <div class="ui basic label">
+    cal/g°C
+  </div>
+</div>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    graphite
+  </div>
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" value="{{item.graphite.c_material}}" disabled>
+  <div class="ui basic label">
+    cal/g°C
+  </div>
+</div>
+<br>
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">The relative errors are</div>
+<br>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    glass
+  </div>
+  <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{item.glass.rel_error}}" disabled>
+</div>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    iron
+  </div>
+  <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{item.iron.rel_error}}" disabled>
+</div>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    graphite
+  </div>
+  <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{item.graphite.rel_error}}" disabled>
+</div>
+<br>
+
+<div class="ui section divider" style="margin-top: 80px;"></div>
+
+{% endfor %}
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+  <div style="height: 40px; width: 100%">
+    <a class="ui primary button pull-left" style="margin-top: 20px;" href="/">
+      Turn Back to Experiments
+    </a>
+  </div>
+  <div class="ui section divider"></div>
+</div>
+{% endif %}
+{% endblock %}

@@ -107,9 +107,12 @@ class Deney1(BaseHandler, TemplateRendering):
             content = self.render_template('binomial_distribution_result.html', {'img': str(document['fig'])} )
             self.write(content)
 
-        # elif pagename == 'all':
-        #     documents = expdata.binomial_distribution.find({})
-        #     content = self.render_template('binomial_distribution_result.html', {'img': str(document['fig'])} )
+        elif pagename == 'all':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            if check_user_lecturer_flag( username ):
+                documents = expdata.binomial_distribution.find({})
+                content = self.render_template('binomial_distribution_result.html', {'all_flag': True, 'results': documents} )
+                self.write(content)
             
         else:
             username = tornado.escape.xhtml_escape(self.current_user)
@@ -161,6 +164,24 @@ class Deney2(BaseHandler, TemplateRendering):
                     
             content = self.render_template('heat_capacity_of_solids_part_one.html', {'data': data})
             self.write(content)
+
+        elif pagename == 'all':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            if check_user_lecturer_flag( username ):
+                results = []
+                documents_part_one = expdata.heat_capacity_of_solids_part_one.find({})
+                for k in documents_part_one:
+                    documents_part_two = expdata.heat_capacity_of_solids_part_two.find_one({'username': k['username']})
+                    if documents_part_two:
+                        for item in k:
+                            documents_part_two[item] = k[item]
+
+                        results.append( documents_part_two )
+
+                print results
+                    
+                content = self.render_template('heat_capacity_of_solids_result.html', {'all_flag': True, 'results': results} )
+                self.write(content)
 
         else:
             query = {'username': username}
@@ -216,17 +237,25 @@ class Deney2(BaseHandler, TemplateRendering):
 
 class Deney3(BaseHandler, TemplateRendering):
     @tornado.web.authenticated
-    def get(self):
-        username = tornado.escape.xhtml_escape(self.current_user)
-        query = {'username': username}
-        document = expdata.fusion_latent_heat_of_water.find_one(query)
-        data = {}
-        if document:
-            for k in document:
-                data[str(k)] = str(document[k])
+    def get(self, pagename=None):
+        if pagename == 'all':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            if check_user_lecturer_flag( username ):
+                documents = expdata.fusion_latent_heat_of_water.find({})
+                content = self.render_template('fusion_latent_heat_of_water_result.html', {'all_flag': True, 'results': documents} )
+                self.write(content)
 
-        content = self.render_template('fusion_latent_heat_of_water.html', {'data': data})
-        self.write(content)
+        else:
+            username = tornado.escape.xhtml_escape(self.current_user)
+            query = {'username': username}
+            document = expdata.fusion_latent_heat_of_water.find_one(query)
+            data = {}
+            if document:
+                for k in document:
+                    data[str(k)] = str(document[k])
+
+            content = self.render_template('fusion_latent_heat_of_water.html', {'data': data})
+            self.write(content)
 
     @tornado.web.authenticated
     def post(self, pagename=None):
@@ -369,8 +398,7 @@ class Welcome(BaseHandler, TemplateRendering):
         username = tornado.escape.xhtml_escape(self.current_user)
         experiment_list = experiments.experiment_list.find_one({})['list']
         user_data = {}
-        userdoc = userdata.auth.find_one({'username': username}, {'lecturer_flag': 1})
-        if 'lecturer_flag' in userdoc and userdoc['lecturer_flag']:
+        if check_user_lecturer_flag( username ):
             for exp in expdata.collection_names():
                 doc = expdata[exp].find({})
                 if doc:
@@ -532,3 +560,13 @@ def register_from_csv(filepath, separator, id_column, name_column):
             bcrypt.hashpw, tornado.escape.utf8(username),
             bcrypt.gensalt())
         register_user( username, hashed_password_with_salt, student_name )
+
+def check_user_lecturer_flag( username ):
+    userdoc = userdata.auth.find_one({'username': username}, {'lecturer_flag': 1})
+    if 'lecturer_flag' in userdoc and userdoc['lecturer_flag']:
+        return True
+    
+    else:
+        return False
+
+    
