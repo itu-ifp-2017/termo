@@ -1,0 +1,38 @@
+{% extends "navigation.html" %}
+{% block content %}
+<p><h2>Experiment Results for Thermal Expansion Coefficient of Solids</h2></p>
+{% if all_flag %}
+{% for item in results %}
+<p style="font-weight: bold;">{{item.username}}
+</p>
+<img src="/static/{{item.fig}}">
+
+<div class="ui section divider"></div>
+
+<span style="float:left;">The slope of the graph is </span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{item.slope}}" disabled>
+</div>
+<br>
+<span style="float:left;">The thermal expansion coefficient is </span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" valye="{{item.a}}" disabled>
+</div>
+<br>
+<span style="float:left;">and the relative error is </span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{item.rel_error}}" disabled>
+</div>
+<br>
+<div class="ui section divider"></div>
+{% endfor %}
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+  <div style="height: 40px; width: 100%">
+    <a class="ui primary button pull-left" style="margin-top: 20px;" href="/">
+      Turn Back to Experiments
+    </a>
+  </div>
+  <div class="ui section divider"></div>
+</div>
+{% endif %}
+{% endblock %}

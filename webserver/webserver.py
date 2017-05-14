@@ -276,18 +276,25 @@ class Deney3(BaseHandler, TemplateRendering):
 
 class Deney4(BaseHandler, TemplateRendering):
     @tornado.web.authenticated
-    def get(self):
-        username = tornado.escape.xhtml_escape(self.current_user)
-        query = {'username': username}
-        document = expdata.thermal_expansion_coefficient_of_solids.find_one(query)
-        data = {}
-        if document:
-            for k in document:
-                data[str(k)] = str(document[k])
+    def get(self, pagename=None):
+        if pagename == 'all':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            if check_user_lecturer_flag( username ):
+                documents = expdata.thermal_expansion_coefficient_of_solids.find({})
+                content = self.render_template('thermal_expansion_coefficient_of_solids_result.html', {'all_flag': True, 'results': documents} )
+                self.write(content)
 
-        print document
-        content = self.render_template('thermal_expansion_coefficient_of_solids.html', {'data': data})
-        self.write(content)
+        else:
+            username = tornado.escape.xhtml_escape(self.current_user)
+            query = {'username': username}
+            document = expdata.thermal_expansion_coefficient_of_solids.find_one(query)
+            data = {}
+            if document:
+                for k in document:
+                    data[str(k)] = str(document[k])
+
+            content = self.render_template('thermal_expansion_coefficient_of_solids.html', {'data': data})
+            self.write(content)
 
     @tornado.web.authenticated
     def post(self, pagename=None):

@@ -16,12 +16,20 @@ function calculate(){
 	}).success( function(data, textStatus, jqXHR){
 	    console.log(data);
 	    $.each(data, function(key,val){
-		$('#'+key).val(val);
+		if(key == 'fig'){
+		    $('#fig').attr("src", "/static/"+val).css("visibility", "visible");
+		}else{
+		    $('#'+key).val(val);
+		}
 	    });
 	});
     }
 }
 
 $.each(data, function(key,val){
-    $('#'+key).val(val);
+    if(key == 'fig'){
+	$('#fig').attr("src", "/static/"+val).css("visibility", "visible");
+    }else{
+	$('#'+key).val(val);
+    }
 });
