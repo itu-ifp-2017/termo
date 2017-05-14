@@ -100,17 +100,38 @@ def thermal_expansion_coefficient(T1, L1, L2, L3, L4, L5, L6, L7, L8, a_real=24)
     }
 
 # ideal gas law
-def ideal_gas_graph(V_1,V_2,V_3,V_4,V_5,P_1,P_2,P_3,P_4,P_5):
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
-    ax.plot([V_1,V_2,V_3,V_4,V_5], [P_1,P_2,P_3,P_4,P_5],"b")
-    ax.set_xlabel('V (cm3)')
-    ax.set_ylabel('P (cm-Hg)')
-    ax.set_title('The grapf of P with respect to V')
+def ideal_gas_plots(data):
+    f, (ax1, ax2, ax3, ax4, ax5, ax6) = plt.subplots(6, sharex=True, sharey=True)
+    ax1.plot( ideal_sub( **data['10'] )['x'], ideal_sub( **data['10'] )['y'], label="10 C" )
+    ax1.set_title('The graph of P with respect to V')
+    ax2.plot( ideal_sub( **data['20'])['x'], ideal_sub( **data['20'] )['y'], label="20 C" )
+    ax3.plot( ideal_sub( **data['30'])['x'], ideal_sub( **data['30'] )['y'], label="30 C" )
+    ax3.set_ylabel('P (cm-Hg)')
+    ax4.plot( ideal_sub( **data['40'])['x'], ideal_sub( **data['40'] )['y'], label="40 C" )
+    ax5.plot( ideal_sub( **data['50'])['x'], ideal_sub( **data['50'] )['y'], label="50 C" )
+    ax6.plot( ideal_sub( **data['60'])['x'], ideal_sub( **data['60'] )['y'], label="60 C" )
+    ax6.set_xlabel('V (cm3)')
+    ax1.legend(loc='upper right', shadow=True)
+    ax2.legend(loc='upper right', shadow=True)
+    ax3.legend(loc='upper right', shadow=True)
+    ax4.legend(loc='upper right', shadow=True)
+    ax5.legend(loc='upper right', shadow=True)
+    ax6.legend(loc='upper right', shadow=True)
+    # Fine-tune figure; make subplots close to each other and hide x ticks for
+    # all but bottom plot.
+    f.subplots_adjust(hspace=0)
+    plt.setp([a.get_xticklabels() for a in f.axes[:-1]], visible=False)
     timestamp = time.time()
     output_file = str(timestamp) + ".png"
-    fig.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))
+    plt.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))
     return output_file
+        
+
+def ideal_sub(V_1,V_2,V_3,V_4,V_5,P_1,P_2,P_3,P_4,P_5):
+    return {
+        'x': [V_1,V_2,V_3,V_4,V_5],
+        'y': [P_1,P_2,P_3,P_4,P_5]
+        }
 
 def numberOfMol(P,V,T):
     t=T+273.15
@@ -127,7 +148,7 @@ def joule_thomson(V_1,V_2,V_3,V_4,V_5,V_6,V_7,V_8,V_9,V_10,V_11, gas):
     ax.plot(x, y)
     ax.set_xlabel('P (kPa))')
     ax.set_ylabel('T (K)')
-    ax.set_title('The grapf of T with respect to P')
+    ax.set_title('The graph of T with respect to P for ' + gas)
     timestamp = time.time()
     output_file = str(timestamp) + ".png"
     fig.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))

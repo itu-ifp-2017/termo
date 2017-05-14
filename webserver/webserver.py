@@ -322,14 +322,17 @@ class Deney5(BaseHandler, TemplateRendering):
             document = expdata.ideal_gas_law.find_one(query)
             data = {}
             if document:
-                for deg in document:
-                    if deg not in ['username', 'timestamp', '_id']:
-                        data[str(deg)] = {}
-                        for k in document[deg]:
-                            data[str(deg)][str(k)] = str(document[deg][k])
+                data = document
 
             content = self.render_template('ideal_gas_law_result.html', { 'data': data })
             self.write(content)
+
+        elif pagename == 'all':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            if check_user_lecturer_flag( username ):
+                documents = expdata.ideal_gas_law.find({})
+                content = self.render_template('ideal_gas_law_result_all.html', {'all_flag': True, 'results': documents} )
+                self.write(content)
             
         else:
             username = tornado.escape.xhtml_escape(self.current_user)
@@ -338,7 +341,7 @@ class Deney5(BaseHandler, TemplateRendering):
             data = {}
             if document:
                 for deg in document:
-                    if deg not in ['username', 'timestamp', '_id']:
+                    if deg not in ['fig', 'username', 'timestamp', '_id']:
                         data[str(deg)] = {}
                         for k in document[deg]:
                             data[str(deg)][str(k)] = str(document[deg][k])
@@ -354,9 +357,8 @@ class Deney5(BaseHandler, TemplateRendering):
             for temp in data:
                 for k in data[temp]:
                     data[temp][k] = float(data[temp][k])
-                
-                data[temp]['fig'] = physics.ideal_gas_graph(**data[temp])
-            
+
+            data['fig'] = physics.ideal_gas_plots(data)
             document = data.copy()
             document['username'] = username
             document['timestamp'] = int(time.time())
@@ -371,9 +373,46 @@ class Deney6(BaseHandler, TemplateRendering):
         self.write(content)
 
 class Deney7(BaseHandler, TemplateRendering):
-    def get(self):
-        content = self.render_template('joule_thomson_effect.html')
-        self.write(content)
+    def get(self, pagename=None):
+        if pagename == 'all':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            if check_user_lecturer_flag( username ):
+                documents = expdata.joule_thomson.find({})
+                content = self.render_template('joule_thomson_effect_result_all.html', {'all_flag': True, 'results': documents} )
+                self.write(content)
+
+        elif pagename == 'result':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            query = {'username': username}
+            document = expdata.joule_thomson.find_one(query)
+            data = {}
+            if document:
+                if 'N2' and 'CO2' in document:
+                    data['N2'] = {}
+                    data['CO2'] = {}
+                    data['N2']['fig'] = document['N2']['fig']
+                    data['CO2']['fig'] = document['CO2']['fig']
+                    content = self.render_template('joule_thomson_effect_result.html', {'data': data})
+                    self.write(content)
+            
+        else:
+            username = tornado.escape.xhtml_escape(self.current_user)
+            query = {'username': username}
+            document = expdata.joule_thomson.find_one(query)
+            data = {}
+            if document:
+                for k in document:
+                    if k not in ['_id', 'N2', 'CO2']:
+                        data[str(k)] = str(document[k])
+
+                    else:
+                        if k != '_id':
+                            data[str(k)] = {}
+                            for i in document[k]:
+                                data[k][str(i)] = str(document[k][i])
+
+            content = self.render_template('joule_thomson_effect.html', {'data': data})
+            self.write(content)
 
     @tornado.web.authenticated
     def post(self, pagename=None):

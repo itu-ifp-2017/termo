@@ -18,10 +18,17 @@ function calculate(){
 	    type: "POST",
 	    data : JSON.stringify(data)
 	}).success( function(data, textStatus, jqXHR){
-	    console.log(data);
-	    $.each(data, function(key,val){
-		$('#'+key).val(val);
-	    });
+	    window.location = "/deney7/result";
+	    console.log("done");
 	});
     }
 }
+
+var gases = ['CO2', 'N2']
+var fields = ['V_1','V_2','V_3','V_4','V_5','V_6','V_7','V_8','V_9','V_10','V_11']
+$.each(gases, function(key,val){
+    $.each(fields, function(i,v){
+	console.log( data, val, v, data[val][v] );
+	$('#'+val+'_'+v).val( data[val][v] );
+    });
+});

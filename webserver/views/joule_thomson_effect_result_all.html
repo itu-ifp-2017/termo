@@ -1,0 +1,25 @@
+{% extends "navigation.html" %}
+{% block content %}
+<p><h2>Experiment Results for Joule-Thompson Effect</h2></p>
+{% if all_flag %}
+{% for item in results %}
+<p style="font-weight: bold;">{{item.username}}
+</p>
+<span class="pull-left" style="width: 40%;">
+  <img src="/static/{{item.CO2.fig}}" width="450">
+</span>
+<span class="pull-right" style="width: 40%; margin-left: 20px;">
+  <img src="/static/{{item.N2.fig}}" width="450">
+</span>
+<div class="ui section divider"></div>
+{% endfor %}
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+  <div style="height: 40px; width: 100%">
+    <a class="ui primary button pull-left" style="margin-top: 20px;" href="/">
+      Turn Back to Experiments
+    </a>
+  </div>
+  <div class="ui section divider"></div>
+</div>
+{% endif %}
+{% endblock %}
