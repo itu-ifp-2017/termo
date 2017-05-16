@@ -22,7 +22,7 @@
 	   <div class="ui label">
 	     Mcal
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="mcup">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="mcal">
 	   <div class="ui basic label">
 	     g
 	   </div>
@@ -33,7 +33,7 @@
 	   <div class="ui label">
 	     Twater
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="twater">
 	   <div class="ui basic label">
 	     C
 	   </div>
@@ -50,42 +50,62 @@
 	   </div>
 	 </div>
 	 <br>
-	 <span style="float:left;">The mass of the hot water is </span>
-	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="mcold" disabled>
-	   <div class="ui basic label">
-	     g
-	   </div>
-	 </div>
-	 <br>
 	 <span style="float:left; margin-top:10px;">Read the temperature when it reaches equilibrium.</span>
 	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px;">
 	   <div class="ui label">
 	     T
 	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;">
+	   <input type="text" placeholder="#number" style="width: 110px;" id="teq">
 	   <div class="ui basic label">
 	     C
 	   </div>
 	 </div>
+	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+	   <div style="height: 40px; width: 100%">
+	     <button class="ui primary button pull-left" style="margin-top: 20px;" onclick="calculate_part_one();">
+	       Calculate Results Part I
+	     </button>
+	   </div>
+	   <div class="ui section divider"></div>
+	 </div>
 	 <br>
+	 <p>
+	 <span style="float:left;">The mass of the hot water is </span>
+	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="mhot" disabled>
+	   <div class="ui basic label">
+	     g
+	   </div>
+	 </div>
+	 </p>
+	 <p>
 	 <span style="float:left;">The heat capacity of water is </span>
 	 <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="mcold" disabled>
+	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="ccal" disabled>
 	   <div class="ui basic label">
-	     ?
+	     cal/C
+	   </div>
+	 </div>
+	 </p>
+	 
+	 <span style="float:left; margin-top:10px;">Mass of cold water </span>
+	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px;">
+	   <div class="ui label">
+	     Mcold
+	   </div>
+	   <input type="text" placeholder="#number" style="width: 110px;" id="mcold">
+	   <div class="ui basic label">
+	     g
 	   </div>
 	 </div>
 	 <br>
-
-       <div style="width:100%;float:left;margin-top: 15px;text-align:center;">
+       <div style="width:400px;float:left;margin-top: 15px;text-align:center;">
 	 <table class="ui celled table" style="width: 400px;margin:0 auto;">
 	   <thead>
 	     <tr>
 	       <th style="width: 100px;">t (s)</th>
 	       <th style="width: 100px;">T (K)</th>
 	       <th style="width: 100px;">dT (K)</th>
-	       <th style="width: 100px;">Q (J)</th>
 	     </tr>
 	   </thead>
 	   <tbody>
@@ -96,25 +116,31 @@
 	       </td>
 	       <td style="padding:0;">
 		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="width: 100%;border:none;">
+		   <input type="text" placeholder="#number" style="width: 100%;border:none;" id="t_{{i+1}}">
 		 </div>
 	       </td>
 	       <td style="padding:0;">
 		 <div class="ui input" style="width: 100%;">
-		   <input type="text" placeholder="#number" style="width: 100%;border:none;">
+		   <input type="text" placeholder="#number" style="width: 100%;border:none;" id="dt_{{i+1}}">
 		 </div>
-	       </td>
-	       <td style="">
-		 --
 	       </td>
 	       </tr>
 	       {% endfor %}
 	   </tbody>
 	   </table>
        </div>
-	 <br>
+       <br>
+       	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+	   <div style="height: 40px; width: 100%">
+	     <button class="ui primary button pull-left" style="margin-top: 20px;" onclick="calculate_part_two();">
+	       Calculate Results Part II
+	     </button>
+	   </div>
+	   <div class="ui section divider"></div>
+	 </div>
      </div> <!-- container -->
      <script>
-       {% include 'js/deney2.js' %}
+       data = {{data}}
+       {% include 'js/deney8.js' %}
      </script>
    </body>

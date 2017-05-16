@@ -162,29 +162,48 @@ def joule_thomson(V_1,V_2,V_3,V_4,V_5,V_6,V_7,V_8,V_9,V_10,V_11, gas):
     }
     
 # thermal conductivity
-def heatcapacity(m_cal,m_ves_cal,T_water,T):
-    m_water=m_ves_cal-m_cal
+def thermal_conductivity_part_one(mcal,mw_mcup,twater,teq):
+    m_water=mw_mcup-mcal
     c=1.0
     T_room=22.0
-    C=m_water*c*(T_water-T)/(T-T_room)
-    print "The heat capacity of water is %f cal/C." %C
-    return C
+    ccal=m_water*c*(twater-teq)/(teq-T_room)
+    return {
+        'mhot': round(m_water,2),
+        'ccal': round(ccal,2)
+    }
 
-def thermalConductivity(dT,V_1,V_2,V_3,V_4,V_5,V_6,V_7,V_8,V_9,V_10,V_11,V_12,V_13,V_14,V_15,V_16,V_17,V_18,V_19,V_20):
-    plt.plot([0,30,60,90.,120,150,180,210,240,270,300,330,360,390,420,450,480,510,540,570], [V_1,V_2,V_3,V_4,V_5,V_6,V_7,V_8,V_9,V_10,V_11,V_12,V_13,V_14,V_15,V_16,V_17,V_18,V_19,V_20])
-    plt.xlabel('t (sn)')
-    plt.ylabel('dQ (cal)')
-    plt.title('The grapf of dQ with respect to t')
-    slope=np.polyfit(x, y, 1)
-    plt.show()
-    print "dQ/dt is %f." %slope
+def thermal_conductivity_part_two(data):
+    dq = [0]
+    dt = [] # for average dt
+    for i in range(9):
+        dt.append( data['dt_'+str(i+1)] )
+        dq.append(
+            (data['dt_'+str(i+2)] - data['dt_1']) * (data['mcold'] + data['ccal'])
+        )
+        
+    t = [0,180,360,540,720,900,1080,1260,1440,1620]
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.plot(t, dq)
+    ax.set_xlabel('t (sn)')
+    ax.set_ylabel('dQ (cal)')
+    ax.set_title('The graph of dQ with respect to t')
+    slope , b = np.polyfit(t, dq, 1)
     dx=31.5
     A=4.91
-    K_calculated=-(slope*dx)/(A*dT)
-    K_literature=205.0
+    K_calculated=6*(-(slope*dx)/(A*np.mean(dt)))
+    K_literature=0.5 # (cal/sec)/(cm2 C/cm)
     K_error=abs(K_calculated-K_literature)*100.0/K_literature
-    print "The percentage error of thermal conductivity of aluminum is %  %f." %K_error
-    return K_calculated,K_error
+    timestamp = time.time()
+    output_file = str(timestamp) + ".png"
+    fig.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))
+    return {
+        'K_calculated': round(K_calculated,2),
+        'K_error': '%'+str(round(K_error,2)),
+        'fig': output_file,
+        'slope': round(slope,2)
+    }
+
 
 # maxwellian
 from pylab import *

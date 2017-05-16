@@ -66,6 +66,7 @@ def serve():
         ("/deney7", Deney7),
         ("/deney7/(.*)", Deney7),
         ("/deney8", Deney8),
+        ("/deney8/(.*)", Deney8),
         ("/done/(.*)", EmptyTemplateLoader),
         ("/static/(.*)", tornado.web.StaticFileHandler, {"path": '/root/termo/physics/plots/'})
     ], **settings)
@@ -434,10 +435,67 @@ class Deney7(BaseHandler, TemplateRendering):
 
 
 class Deney8(BaseHandler, TemplateRendering):
-    def get(self):
-        content = self.render_template('thermal_and_electrical_conductivity_of_metals.html')
-        self.write(content)
-    
+    def get(self, pagename=None):
+        if pagename == 'result':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            query = { 'username': username }
+            document = expdata.thermal_and_electrical_conductivity.find_one(query)
+            content = self.render_template('thermal_and_electrical_conductivity_result.html', {
+                'img': str(document['fig']),
+                'slope': str(document['slope']),
+                'K_calculated': str(document['K_calculated']),
+                'K_error': str(document['K_error'])
+            })
+            self.write(content)
+
+        else:
+            username = tornado.escape.xhtml_escape(self.current_user)
+            query = { 'username': username }
+            document = expdata.thermal_and_electrical_conductivity.find_one(query)
+            data = {}
+            for k in document:
+                if k not in ['timestamp', '_id', 'username', 'fig', 'K_error']:
+                    data[str(k)] = float(document[k])
+                elif k == 'K_error':
+                    data[str(k)] = str(document[k])
+                    
+            content = self.render_template('thermal_and_electrical_conductivity_of_metals.html', {'data':data})
+            self.write(content)
+
+    @tornado.web.authenticated
+    def post(self, pagename=None):
+        if pagename == 'calculate_part_one':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            data = json.loads( self.request.body )
+            for k in data:
+                data[k] = float(data[k])
+                
+            data.update( physics.thermal_conductivity_part_one( **data ) )
+            document = data.copy()            
+            document['username'] = username
+            document['timestamp'] = int(time.time())
+            query = {'username':username}
+            expdata.thermal_and_electrical_conductivity.find_one_and_replace(query,document,upsert=True)
+            self.write( document )
+
+        elif pagename == 'calculate_part_two':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            query = {'username': username}
+            document = expdata.thermal_and_electrical_conductivity.find_one(query)
+            if document:
+                data = json.loads( self.request.body )
+                for k in data:
+                    document[k] = float(data[k])
+                    
+                document.update( physics.thermal_conductivity_part_two( document ) )
+                document['username'] = username
+                document['timestamp'] = int(time.time())
+                query = {'username':username}
+                del document['_id']
+                expdata.thermal_and_electrical_conductivity.find_one_and_replace(query,document,upsert=True)
+                self.write( document )
+
+        
 class Welcome(BaseHandler, TemplateRendering):
     @tornado.web.authenticated
     def get(self):

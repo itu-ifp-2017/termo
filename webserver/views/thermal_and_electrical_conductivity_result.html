@@ -1,0 +1,49 @@
+{% extends "navigation.html" %}
+{% block content %}
+<p><h2>Experiment Results for Thermal and Electrical Conductivity of Metals</h2></p>
+{% if all_flag %}
+{% for item in results %}
+<p style="font-weight: bold;">{{item.username}}
+</p>
+<img src="/static/{{item.fig}}">
+<div class="ui section divider"></div>
+{% endfor %}
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+  <div style="height: 40px; width: 100%">
+    <a class="ui primary button pull-left" style="margin-top: 20px;" href="/">
+      Turn Back to Experiments
+    </a>
+  </div>
+  <div class="ui section divider"></div>
+</div>
+{% else %}
+<img src="/static/{{img}}">
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+  <div style="height: 40px; width: 100%">
+    <a class="ui primary button pull-left" style="margin-top: 20px;" href="/deney8">
+      Turn Back & Edit Data
+    </a>
+  </div>
+  <div class="ui section divider"></div>
+  <span style="float:left;">The slope of the graph is </span>
+  <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+    <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{slope}}" disabled>
+  </div>
+  <br>
+  <span style="float:left;">The thermal conductivity is </span>
+  <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+    <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" value="{{K_calculated}}" disabled>
+    <div class="ui basic label">
+      (cal/s)/(cm2 C/cm)
+    </div>
+  </div>
+  
+  <br>
+  <span style="float:left;">and the relative error is </span>
+  <div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+    <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{K_error}}" disabled>
+  </div>
+  <br>
+</div>
+{% endif %}
+{% endblock %}
