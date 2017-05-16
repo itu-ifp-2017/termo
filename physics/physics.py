@@ -5,15 +5,20 @@ import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 import os
+import numpy as np
 
 def binomial_distribution(data):
     numtails = pd.Series(data)
-    hdata = pd.Series(Counter(numtails)).fillna(0) # .reindex(range(0,11)).fillna(0).astype(int)
+    hdata = pd.Series(Counter(numtails)).astype(int)
     plot = hdata.plot(kind='bar')
+    plot.set_xlabel('')
+    plot.set_ylabel('')
+    plot.set_title('')
     fig = plot.get_figure()
     timestamp = int(time.time())
     output_file = str(timestamp) + ".png"
     fig.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))
+    plt.close()
     return output_file
 
 
@@ -77,26 +82,27 @@ def latent_heat_of_water(m1, m2, T1, m3, T2):
         'm_ice': round(m_ice,2)
     }
 
-def thermal_expansion_coefficient(T1, L1, L2, L3, L4, L5, L6, L7, L8, a_real=24):
+def thermal_expansion_coefficient(T1, L1, L2, L3, L4, L5, L6, L7, L8, a_real=0.000019):
     fig = plt.figure()
     ax = fig.add_subplot(111)
     x = [T1,25,30,40,50.,60,70,80]
     y = [0, L2, L3, L4, L5, L6, L7, L8]
     ax.plot(x, y)
     ax.set_xlabel('T2 (C)')
-    ax.set_ylabel('L (mm))')
-    ax.set_title('The grapf of L with respect to T2')
+    ax.set_ylabel('dL (mm))')
+    ax.set_title('The grapH of L with respect to T2')
     timestamp = int(time.time())
     output_file = str(timestamp) + ".png"
     fig.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))
     slope, b = np.polyfit(x, y, 1) # y = slope*x+b
-    a = 0 # formul foyde
-    a_error=abs(a_real-a)*100.0/a_real
+    a = slope/(L1)
+    a_error=(abs(a_real-a)*100.0)/a_real
+    plt.close()
     return {
         'a': a,
         'rel_error': '%'+str(round(a_error,2)),
         'fig': output_file,
-        'slope': slope
+        'slope': round(slope,4)
     }
 
 # ideal gas law
@@ -124,6 +130,7 @@ def ideal_gas_plots(data):
     timestamp = time.time()
     output_file = str(timestamp) + ".png"
     plt.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))
+    plt.close()
     return output_file
         
 
@@ -155,6 +162,7 @@ def joule_thomson(V_1,V_2,V_3,V_4,V_5,V_6,V_7,V_8,V_9,V_10,V_11, gas):
     mu , b = np.polyfit(x, y, 1)
     mu_real=7.16*(10**-6) if gas == 'CO2' else 3.75*(10**-6)
     mu_error=abs(mu_real-mu)*100.0/mu_real
+    plt.close()
     return {
         'mu': round(mu,2),
         'rel_error': '%'+str(round(mu_error,2)),
@@ -197,6 +205,7 @@ def thermal_conductivity_part_two(data):
     timestamp = time.time()
     output_file = str(timestamp) + ".png"
     fig.savefig( os.path.join(os.path.dirname(__file__), 'plots/' + output_file))
+    plt.close()
     return {
         'K_calculated': round(K_calculated,2),
         'K_error': '%'+str(round(K_error,2)),
@@ -205,25 +214,25 @@ def thermal_conductivity_part_two(data):
     }
 
 
-# maxwellian
-from pylab import *
-import math
-import numpy as np
+# # maxwellian
+# from pylab import *
+# import math
+# import numpy as np
 
-def plotMaxwell(M,R,T,Vin,Fin):
-    Vmin=V.min()
-    Vmax=V.max()
-    Vout=np.linspace(Vmin,Vmax,100);
-    fout=4*pi(M/(2*pi*R*T))**(3/2)*math.exp(-M*Vout/(2*R*T));
-    fig=figure()
-    ax=fig.gca()
-    ax.set_xlabel("V")
-    ax.set_ylabel("F(V)")
-    ax.plot(Vout,fout)
-    ax.plot(Vin,Fin,'x')
-    #return V1D,f
+# def plotMaxwell(M,R,T,Vin,Fin):
+#     Vmin=V.min()
+#     Vmax=V.max()
+#     Vout=np.linspace(Vmin,Vmax,100);
+#     fout=4*pi(M/(2*pi*R*T))**(3/2)*math.exp(-M*Vout/(2*R*T));
+#     fig=figure()
+#     ax=fig.gca()
+#     ax.set_xlabel("V")
+#     ax.set_ylabel("F(V)")
+#     ax.plot(Vout,fout)
+#     ax.plot(Vin,Fin,'x')
+#     #return V1D,f
 
-#example for function call
-# V=np.array([1, 2, 3.0,4.1,5.])
-# F=np.array([1.1,2.,3.4,3.99,4.65])
-# plotMaxwell(1.,1.,1.,V,F)
+# #example for function call
+# # V=np.array([1, 2, 3.0,4.1,5.])
+# # F=np.array([1.1,2.,3.4,3.99,4.65])
+# # plotMaxwell(1.,1.,1.,V,F)

@@ -7,6 +7,26 @@
 </p>
 <img src="/static/{{item.fig}}">
 <div class="ui section divider"></div>
+<span style="float:left;">The slope of the graph is </span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{item.slope}}" disabled>
+</div>
+<br>
+<span style="float:left;">The thermal conductivity is </span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" value="{{item.K_calculated}}" disabled>
+  <div class="ui basic label">
+    (cal/s)/(cm2 C/cm)
+  </div>
+</div>
+
+<br>
+<span style="float:left;">and the relative error is </span>
+<div class="ui transparent input" style="width: 195px; padding-left: 30px; margin-bottom:10px;">
+  <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{item.K_error}}" disabled>
+</div>
+<br>
+<div class="ui section divider"></div>
 {% endfor %}
 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
   <div style="height: 40px; width: 100%">
@@ -17,6 +37,7 @@
   <div class="ui section divider"></div>
 </div>
 {% else %}
+<div style="height: 800px;">
 <img src="/static/{{img}}">
 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
   <div style="height: 40px; width: 100%">
@@ -44,6 +65,7 @@
     <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" value="{{K_error}}" disabled>
   </div>
   <br>
+</div>
 </div>
 {% endif %}
 {% endblock %}

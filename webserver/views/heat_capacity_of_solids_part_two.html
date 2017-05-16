@@ -1,268 +1,257 @@
-<!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>ifp</title>
-
-    <link type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
-  </head>
-
-   <body>
-     <div class="ui container" style="width: 1080px; height: 1150px; margin: 0 auto; padding-top: 50px; position: relative;">
-       <h2>Heat Capacity of Solids</h2>
-       <h3>Part II - the specific heat of solids</h3>
-       <a class="ui primary button pull-right" href="/deney2" style="margin-top: -50px;">
-	 Turn Back & Edit Data
-       </a>
-       <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">Record the mass of the water.</div>
-       <br>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     Mw glass
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="glass_m_water">
-	   <div class="ui basic label">
-	     g
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     Mw iron
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="iron_m_water">
-	   <div class="ui basic label">
-	     g
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     Mw graphite
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="graphite_m_water">
-	   <div class="ui basic label">
-	     g
-	   </div>
-	 </div>
-	 <br>
-	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">Record the value of thermal equilibrium at temperature T2.</div>
-	 <br>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     T2 glass
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="glass_T2">
-	   <div class="ui basic label">
-	     C
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     T2 iron
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="iron_T2">
-	   <div class="ui basic label">
-	     C
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     T2 graphite
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="graphite_T2">
-	   <div class="ui basic label">
-	     C
-	   </div>
-	 </div>
-	 <br>
-	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">Weigh and record the mass of the sample.</div>
-	 <br>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     M glass
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="glass_M">
-	   <div class="ui basic label">
-	     g
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     M iron
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="iron_M">
-	   <div class="ui basic label">
-	     g
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     M graphite
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="graphite_M">
-	   <div class="ui basic label">
-	     g
-	   </div>
-	 </div>
-	 <br>
-	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">The value of the temperature T1 of the oven.</div>
-	 <br>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     T1 glass
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="glass_T1">
-	   <div class="ui basic label">
-	     C
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     T1 iron
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="iron_T1">
-	   <div class="ui basic label">
-	     C
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     T1 graphite
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="graphite_T1">
-	   <div class="ui basic label">
-	     C
-	   </div>
-	 </div>
-	 <br>
-	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">Put the sample at temperature T1 into the calorimeter vessel. Record the final temperature Tf.</div>
-	 <br>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     Tf glass
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="glass_Tf">
-	   <div class="ui basic label">
-	     C
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     Tf iron
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="iron_Tf">
-	   <div class="ui basic label">
-	     C
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     Tf graphite
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="graphite_Tf">
-	   <div class="ui basic label">
-	     C
-	   </div>
-	 </div>
-	 <br>
-	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">Heat capacity values from the literature.</div>
-	 <br>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     glass
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="glass_c_real">
-	   <div class="ui basic label">
-	     cal/g°C
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     iron
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="iron_c_real">
-	   <div class="ui basic label">
-	     cal/g°C
-	   </div>
-	 </div>
-	 <div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui label">
-	     graphite
-	   </div>
-	   <input type="text" placeholder="#number" style="width: 110px;" id="graphite_c_real">
-	   <div class="ui basic label">
-	     cal/g°C
-	   </div>
-	 </div>
-	 <br>
-	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
-	 <div style="height: 40px; width: 100%">
-	   <button class="ui primary button pull-left" style="margin-top: 20px;" onclick="calculate_part_two();">
-	     Calculate Results
-	   </button>
-	 </div>
-	 <div class="ui section divider"></div>
-	 
-	 </div>
-	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">The specific heat capacity of your samples are</div>
-	 <br>
-	 <div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui basic label">
-	     glass
-	   </div>
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="glass_c_material" disabled>
-	   <div class="ui basic label">
-	     cal/g°C
-	   </div>
-	 </div>
-	 <div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui basic label">
-	     iron
-	   </div>
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="iron_c_material" disabled>
-	   <div class="ui basic label">
-	     cal/g°C
-	   </div>
-	 </div>
-	 <div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui basic label">
-	     graphite
-	   </div>
-	   <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="graphite_c_material" disabled>
-	   <div class="ui basic label">
-	     cal/g°C
-	   </div>
-	 </div>
-	 <br>
-	 <div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">The relative errors are</div>
-	 <br>
-	 <div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui basic label">
-	     glass
-	   </div>
-	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="glass_rel_error" disabled>
-	 </div>
-	 <div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui basic label">
-	     iron
-	   </div>
-	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="iron_rel_error" disabled>
-	 </div>
-	 <div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
-	   <div class="ui basic label">
-	     graphite
-	   </div>
-	   <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="graphite_rel_error" disabled>
-	 </div>
-	 <br>
-
-
-     </div> <!-- container -->
-     <script>
-       data = {{data}}
-       {% include 'js/deney2.js' %}
-     </script>
-   </body>
+{% extends "navigation.html" %}
+{% block content %}
+<div style="height: 900px;">
+<h2>Heat Capacity of Solids</h2>
+<h3>Part II - the specific heat of solids</h3>
+<a class="ui primary button" href="/deney2" style="float:right;>margin-top: -50px;">
+  Turn Back & Edit Data
+</a>
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">Record the mass of the water.</div>
+<br>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    Mw glass
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="glass_m_water">
+  <div class="ui basic label">
+    g
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    Mw iron
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="iron_m_water">
+  <div class="ui basic label">
+    g
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    Mw graphite
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="graphite_m_water">
+  <div class="ui basic label">
+    g
+  </div>
+</div>
+<br>
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">Record the value of thermal equilibrium at temperature T2.</div>
+<br>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    T2 glass
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="glass_T2">
+  <div class="ui basic label">
+    C
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    T2 iron
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="iron_T2">
+  <div class="ui basic label">
+    C
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    T2 graphite
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="graphite_T2">
+  <div class="ui basic label">
+    C
+  </div>
+</div>
+<br>
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">Weigh and record the mass of the sample.</div>
+<br>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    M glass
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="glass_M">
+  <div class="ui basic label">
+    g
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    M iron
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="iron_M">
+  <div class="ui basic label">
+    g
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    M graphite
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="graphite_M">
+  <div class="ui basic label">
+    g
+  </div>
+</div>
+<br>
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">The value of the temperature T1 of the oven.</div>
+<br>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    T1 glass
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="glass_T1">
+  <div class="ui basic label">
+    C
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    T1 iron
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="iron_T1">
+  <div class="ui basic label">
+    C
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    T1 graphite
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="graphite_T1">
+  <div class="ui basic label">
+    C
+  </div>
+</div>
+<br>
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">Put the sample at temperature T1 into the calorimeter vessel. Record the final temperature Tf.</div>
+<br>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    Tf glass
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="glass_Tf">
+  <div class="ui basic label">
+    C
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    Tf iron
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="iron_Tf">
+  <div class="ui basic label">
+    C
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    Tf graphite
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="graphite_Tf">
+  <div class="ui basic label">
+    C
+  </div>
+</div>
+<br>
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">Heat capacity values from the literature.</div>
+<br>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    glass
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="glass_c_real">
+  <div class="ui basic label">
+    cal/g°C
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    iron
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="iron_c_real">
+  <div class="ui basic label">
+    cal/g°C
+  </div>
+</div>
+<div class="ui fluid right labeled input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui label">
+    graphite
+  </div>
+  <input type="text" placeholder="#number" style="width: 110px;" id="graphite_c_real">
+  <div class="ui basic label">
+    cal/g°C
+  </div>
+</div>
+<br>
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">
+  <div style="height: 40px; width: 100%">
+    <button class="ui primary button pull-left" style="margin-top: 20px;" onclick="calculate_part_two();">
+      Calculate Results
+    </button>
+  </div>
+  <div class="ui section divider"></div>
+  
+</div>
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">The specific heat capacity of your samples are</div>
+<br>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    glass
+  </div>
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="glass_c_material" disabled>
+  <div class="ui basic label">
+    cal/g°C
+  </div>
+</div>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    iron
+  </div>
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="iron_c_material" disabled>
+  <div class="ui basic label">
+    cal/g°C
+  </div>
+</div>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    graphite
+  </div>
+  <input type="text" placeholder=". . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;text-align:right;" id="graphite_c_material" disabled>
+  <div class="ui basic label">
+    cal/g°C
+  </div>
+</div>
+<br>
+<div style="width: 100%; float:left; margin-top:10px; margin-bottom: 10px;">The relative errors are</div>
+<br>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    glass
+  </div>
+  <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="glass_rel_error" disabled>
+</div>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    iron
+  </div>
+  <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="iron_rel_error" disabled>
+</div>
+<div class="ui transparent input" style="width: 195px; margin-left: 50px; padding-left: 30px; float: left;">
+  <div class="ui basic label">
+    graphite
+  </div>
+  <input type="text" placeholder="% . . . . . . . . . . . . . . . . . . . . . . . . . . . ." style="width: 110px;" id="graphite_rel_error" disabled>
+</div>
+<br>
+</div>
+<div class="ui section divider"></div>
+{% endblock %}
+{% block js %}
+<script>
+  data = {{data}}
+  {% include 'js/deney2.js' %}
+</script>
+{% endblock %}

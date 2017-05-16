@@ -89,6 +89,10 @@ class TemplateRendering:
         except TemplateNotFound:
             raise TemplateNotFound(template_name)
 
+        if self.current_user:
+            variables['username'] = tornado.escape.xhtml_escape(self.current_user)
+            variables['lecturer_flag'] = check_user_lecturer_flag( variables['username'] )
+            
         content = template.render(variables)
         return content
 
@@ -142,6 +146,8 @@ class Deney1(BaseHandler, TemplateRendering):
             output_file = physics.binomial_distribution(data)
             query = { 'username': username }
             document = { 'username': username, 'data': data, 'fig': output_file }
+            document['timestamp'] = time.time()
+            query = {'username':username}
             expdata.binomial_distribution.find_one_and_replace(query,document,upsert=True)
             self.write('/deney1/sonuc')
 
@@ -179,8 +185,6 @@ class Deney2(BaseHandler, TemplateRendering):
 
                         results.append( documents_part_two )
 
-                print results
-                    
                 content = self.render_template('heat_capacity_of_solids_result.html', {'all_flag': True, 'results': results} )
                 self.write(content)
 
@@ -448,6 +452,13 @@ class Deney8(BaseHandler, TemplateRendering):
             })
             self.write(content)
 
+        elif pagename == 'all':
+            username = tornado.escape.xhtml_escape(self.current_user)
+            if check_user_lecturer_flag( username ):
+                documents = expdata.thermal_and_electrical_conductivity.find({})
+                content = self.render_template('thermal_and_electrical_conductivity_result.html', {'all_flag': True, 'results': documents} )
+                self.write(content)
+            
         else:
             username = tornado.escape.xhtml_escape(self.current_user)
             query = { 'username': username }
@@ -584,47 +595,53 @@ class Register(BaseHandler, TemplateRendering):
             self.write("user already exists")
 
 class Upload(BaseHandler, TemplateRendering):
+    @tornado.web.authenticated
     def get(self, error_msg=None):
-        variables = {'html':''}
-        if error_msg is not None:
-            variables['error_msg'] = error_msg
-            
-        content = self.render_template('upload_csv.html', variables)
-        self.write(content)
-        
-    def post(self, pagename=None):
-        if pagename is None:
-            if 'filearg' not in self.request.files:
-                self.get('No file selected!')
+        username = tornado.escape.xhtml_escape(self.current_user)
+        if check_user_lecturer_flag( username ):
+            variables = {'html':''}
+            if error_msg is not None:
+                variables['error_msg'] = error_msg
+                
+            content = self.render_template('upload_csv.html', variables)
+            self.write(content)
 
-            else:
-                fileinfo = self.request.files['filearg'][0]
-                separator = ';' if self.get_argument('separator') in ['','1'] else ','
-                fname = fileinfo['filename']
-                extn = os.path.splitext(fname)[1]
-                cname = str(uuid.uuid4()) + extn
+    @tornado.web.authenticated
+    def post(self, pagename=None):
+        username = tornado.escape.xhtml_escape(self.current_user)
+        if check_user_lecturer_flag( username ):
+            if pagename is None:
+                if 'filearg' not in self.request.files:
+                    self.get('No file selected!')
+
+                else:
+                    fileinfo = self.request.files['filearg'][0]
+                    separator = ';' if self.get_argument('separator') in ['','1'] else ','
+                    fname = fileinfo['filename']
+                    extn = os.path.splitext(fname)[1]
+                    cname = str(uuid.uuid4()) + extn
+                    filepath = os.path.join(os.path.dirname(__file__), 'uploads/') + fname 
+                    fh = open(filepath, 'w')
+                    fh.write(fileinfo['body'])
+                    fh.close()
+                    userlist = pd.read_csv( str(filepath) , sep=separator).dropna(axis='columns', how='all').dropna(axis='rows', how='all')
+                    userlist.index += 1
+                    content = self.render_template('upload_csv.html', {
+                        'html':userlist.to_html(classes=['ui', 'celled', 'table']),
+                        'filename': fname,
+                        'columns': userlist.columns,
+                        'separator': separator
+                    })
+                    self.write(content)
+
+            elif pagename == 'register_from_csv':
+                fname = self.get_argument('filename')
+                id_value = self.get_argument('id_value')
+                name_value = self.get_argument('name_value')
+                separator = self.get_argument('separator')
                 filepath = os.path.join(os.path.dirname(__file__), 'uploads/') + fname 
-                fh = open(filepath, 'w')
-                fh.write(fileinfo['body'])
-                fh.close()
-                userlist = pd.read_csv( str(filepath) , sep=separator).dropna(axis='columns', how='all').dropna(axis='rows', how='all')
-                userlist.index += 1
-                content = self.render_template('upload_csv.html', {
-                    'html':userlist.to_html(classes=['ui', 'celled', 'table']),
-                    'filename': fname,
-                    'columns': userlist.columns,
-                    'separator': separator
-                })
-                self.write(content)
-            
-        elif pagename == 'register_from_csv':
-            fname = self.get_argument('filename')
-            id_value = self.get_argument('id_value')
-            name_value = self.get_argument('name_value')
-            separator = self.get_argument('separator')
-            filepath = os.path.join(os.path.dirname(__file__), 'uploads/') + fname 
-            register_from_csv( filepath, separator, id_value, name_value )
-            self.write({'redirect_url': '/done/users-registered'})
+                register_from_csv( filepath, separator, id_value, name_value )
+                self.write({'redirect_url': '/done/users-registered'})
 
             
 def get_user_password_from_db(username):
